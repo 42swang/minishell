@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/11/20 22:53:49 by swang            ###   ########.fr       */
+/*   Updated: 2021/11/21 01:09:34 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 typedef	struct	s_info
 {
 	char	**path;
+	char	**token;
 }	t_info;
 
 typedef struct	s_lexical_node
@@ -70,11 +71,14 @@ char	**ft_split_cmd(char const *s, char c);
 int		check_quotation_mark(char *str, int *i);
 int		find_start_end(char *s, int *i, int *start, char c);
 
+/* parsing */
+t_parse_list *run_parsing(char *line, t_info *info);
 
 /* src */
 
 
 /* tokenizser */
+char	**get_token(char *line);
 
 /* lexer */
 
