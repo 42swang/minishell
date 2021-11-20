@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 22:41:54 by swang             #+#    #+#             */
-/*   Updated: 2021/11/20 22:44:53 by swang            ###   ########.fr       */
+/*   Updated: 2021/11/21 02:41:27 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	ft_count_word(char const *s, char c)
 			count++;
 			if (s[i] == '\'' || s[i] == '\"')
 			{
-				if (check_quotation_mark((char *)s + i, &i) == -1)
+				if (check_quotation_mark((char *)s, &i) == -1)
 					return (-1);
 			}
 			else

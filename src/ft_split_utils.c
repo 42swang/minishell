@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 22:41:48 by swang             #+#    #+#             */
-/*   Updated: 2021/11/20 23:01:14 by swang            ###   ########.fr       */
+/*   Updated: 2021/11/21 02:48:32 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,47 @@
 
 int	check_quotation_mark(char *str, int *i)
 {
-	char	c;
+	char	quote;
 	int		idx;
 
 	idx = *i;
-	c = *str;
-	(*i)++;
-	while (str[*i])
+	quote = str[idx];
+	idx++;
+	//printf("cqm : %c\n", str[idx]);
+	while (str[idx] != 0)
 	{
-		if (str[*i] == c)
+		if (str[idx] == quote)
 		{
-			(*i) += idx + 1;
+			(*i) = (idx + 1); //따옴표나오면 다음인덱스로 넘겨서 내보냄
 			return (0);
 		}
-		(*i)++;
+		idx++;
 	}
-	printf("Error\nnot closed quotation mark\n");
+	printf("Error : not closed quotation mark\n");
 	return (-1);
 }
 
 int	find_start_end(char *s, int *i, int *start, char c)
 {
 	char	quote;
+	int		idx;
 
-	while (s[*i] && s[*i] != c)
+	idx = *i;
+	while (s[idx] && s[idx] != c)
 	{
-		if (s[*i] == '\'' || s[*i] == '\"')
+		if (s[idx] == '\'' || s[idx] == '\"')
 		{
-			*start = *i + 1;
-			quote = s[*i];
-			(*i)++;
-			while (s[*i] != quote)
-				(*i)++;
-			return (*i);
+			*start = idx + 1;
+			quote = s[idx];
+			idx++;
+			while (s[idx] != quote)
+				idx++;
+			*i = idx + 1;
+			return (idx);
 		}
 		else
-			(*i)++;
+			idx++;
 	}
-	return (*i);
+	*i = idx;
+	return (idx);
 }
