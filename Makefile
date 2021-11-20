@@ -6,7 +6,7 @@
 #    By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 15:19:54 by swang             #+#    #+#              #
-#    Updated: 2021/11/21 00:25:25 by swang            ###   ########.fr        #
+#    Updated: 2021/11/21 01:08:51 by swang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,10 @@ SRC_DIR = src/
 SRC_NAME = main.c\
 	utils.c\
 	get_path.c\
+	get_token.c\
 	ft_split_cmd.c\
 	ft_split_utils.c\
+	run_parsing.c
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_NAME))
 
