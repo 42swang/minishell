@@ -37,7 +37,7 @@ int sin_error(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '\'' && (i == 0 || line[i - 1]) != '\\')
+		if (line[i] == '\'')
 			x++;
 		i++;
 	}
@@ -46,7 +46,7 @@ int sin_error(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '\"' && (i == 0 || line[i - 1]) != '\\')
+		if (line[i] == '\"')
 			x++;
 		i++;
 	}
