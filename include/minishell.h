@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <signal.h>
 
 /* readline 함수, add_history함수, exit, printf, 동적할당 */
 
@@ -76,6 +77,13 @@ t_parse_list *run_parsing(char *line, t_info *info);
 
 /* src */
 
+// signal
+void handle_signal(int signo);
+void sig_init();
+
+//sin_error
+int sin_lex(t_lexical_list *lex);
+int sin_error(char *line);
 
 /* tokenizser */
 char	**get_token(char *line);

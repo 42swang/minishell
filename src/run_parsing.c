@@ -26,7 +26,13 @@
 
 t_parse_list *run_parsing(char *line, t_info *info)
 {
+	t_lexical_list lex;
+
+	if (sin_error(line))
+		return (-1);
 	info->token = get_token(line);
+	if (sin_lex(&lex))
+		return (-1);
 	return (0); //임시로 종료시키려고 추가
 	//return(이 함수의 반환값은 실행단위가 저장된 parse_list);
 }

@@ -36,7 +36,7 @@ int	main(int argc, char *argv[], char *envp[])
 			printf("exit\n");
 			exit(0);
 		}
-		parse_list = run_parsing(line, &info); //입력받은 라인과 info구조체넘겨서 파싱하기
+		parse_list = run_parsing(line, &info); //입력받은 라인과 info구조체넘겨서 파싱하
 		if (info.token != NULL) //token 한글자씩 찍는 테스트문
 		{
 			int x = 0;
@@ -55,7 +55,6 @@ int	main(int argc, char *argv[], char *envp[])
 				x++;
 			}
 		}
-
 		// 실행파트
 		// line과 관련된 애들 정보 지우기 (새 라인을 받아올거니까)
 		free(line);
