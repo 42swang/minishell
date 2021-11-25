@@ -6,7 +6,7 @@
 #    By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 15:19:54 by swang             #+#    #+#              #
-#    Updated: 2021/11/21 01:08:51 by swang            ###   ########.fr        #
+#    Updated: 2021/11/25 22:21:10 by swang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 LFLAGS = -L./libft -lft
 LDFLAGS = -L/opt/homebrew/opt/readline/lib
 CPPFLAGS = -I/opt/homebrew/opt/readline/include
@@ -24,12 +24,16 @@ LIB_DIR = ./libft
 SRC_DIR = src/
 
 SRC_NAME = main.c\
-	utils.c\
-	get_path.c\
-	get_token.c\
-	ft_split_cmd.c\
-	ft_split_utils.c\
-	run_parsing.c
+	init.c\
+	make_env_list.c\
+	make_path_arr.c\
+	run_parsing.c\
+	run_tokenizer.c\
+	tokenizer_divide.c\
+	tokenizer_convert_env.c\
+	tokenizer_trim_quote.c\
+	tokenizer_utils.c
+
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_NAME))
 
