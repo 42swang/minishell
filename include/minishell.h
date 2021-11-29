@@ -72,7 +72,7 @@ typedef struct	s_parse_node
 {
 	int		index;
 	int		p_fd[2]; //초기화만?
-	char	**cmd; //{cmd, test, \0}
+	char	**cmd; //{cmd, test, \0} -> cat > test 이런문장일때
 	int		*lex; //{CMD, IN_RE,  0} -> 렉서 
 	struct	s_parse_node	*prev;
 	struct	s_parse_node	*next;

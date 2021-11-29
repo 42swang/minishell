@@ -5,7 +5,7 @@ int sin_lex(t_lexical_list *lex)
 	int i;
 	char c;
 
-	if (lex->head->type != 2 || lex->tail->type != 2)
+	if (lex->head->type != PIPE || lex->tail->type != PIPE)
 		return (1);
 	while (lex->curr != lex->head)
 	{
