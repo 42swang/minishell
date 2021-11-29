@@ -16,6 +16,7 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	char			*line;
 	t_info			info;
+	t_parse_list	*parse_list;
 
 	//sig_init();
 	//print_ascii_art();
@@ -33,7 +34,28 @@ int	main(int argc, char *argv[], char *envp[])
 			printf("exit\n");
 			exit(0);
 		}
-		
+		parse_list = run_parsing(line, &info); //입력받은 라인과 info구조체넘겨서 파싱하
+		if (info.token != NULL) //token 한글자씩 찍는 테스트문
+		{
+			int x = 0;
+			while (info.token[x])
+			{
+				printf("%s\n", info.token[x]);
+				/*
+				int y = 0;
+				while (info.token[x][y])
+				{
+					printf("%c", info.token[x][y]);
+					y++;
+				}
+				printf(" ");
+				*/
+				x++;
+			}
+		}
+		// 실행파트
+		// line과 관련된 애들 정보 지우기 (새 라인을 받아올거니까)
+		free(line);	
 		//info.파서리스트 = run_parsing(line, &info);
 		//파서구조체를 지워버려서 실행이 안됩니다~ 추가해주세용
 
