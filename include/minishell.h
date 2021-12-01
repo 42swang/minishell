@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/11/25 22:08:24 by swang            ###   ########.fr       */
+/*   Updated: 2021/11/30 16:48:57 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@
 
 # define SQ 32
 # define DQ 64
+
+# define PIPE 100
+
+# define IN_RE 101
+# define OUT_RE 102
+# define HEREDOC 103
+# define OUT_RE2 104
+
+# define CMD 222
+# define ARG 223
+
+
 // 128,64,32,16 8,4,2,1 
 
 typedef	struct	s_info
@@ -34,6 +46,8 @@ typedef	struct	s_info
 	unsigned char	quote;
 	int		exit_stat;
 	int		*real;
+	struct s_lexical_list *lex_list;
+	struct s_parse_list *parse_list;
 }	t_info;
 
 typedef struct s_env_node
@@ -41,6 +55,38 @@ typedef struct s_env_node
 	char				**env_arr;
 	struct s_env_node	*next;
 }	t_env_node;
+
+typedef struct	s_lexical_node
+{
+	int		type;
+	char	*value;
+	struct s_lexical_node	*prev;
+	struct s_lexical_node	*next;
+}	t_lexical_node;
+
+typedef struct	s_lexical_list
+{
+	t_lexical_node	*head;
+	t_lexical_node	*tail;
+	t_lexical_node	*curr;
+}	t_lexical_list;
+
+typedef struct	s_parse_node
+{
+	int		index;
+	int		p_fd[2]; //초기화만?
+	char	**cmd; //{cmd, test, \0} -> cat > test 이런문장일때
+	int		*lex; //{CMD, IN_RE,  0} -> 렉서 
+	struct	s_parse_node	*prev;
+	struct	s_parse_node	*next;
+}	t_parse_node;
+
+typedef struct	s_parse_list
+{
+	t_parse_node	*head;
+	t_parse_node	*tail;
+	t_parse_node	*curr;
+}	t_parse_list;
 
 /* init */ 
 void	init_info(t_info *info, char *env[]);
@@ -59,6 +105,32 @@ char	**run_tokenizer(char *line, t_info *info);
 char	**divide_line(char *line, t_info *info);
 void	convert_env(char **arr, t_info *info);
 void	trim_quote(char **arr, t_info *info);
+
+/* run_parsing */
+void	run_parser(t_info *info);
+void	make_parse_node(t_lexical_node *p, t_info *info, int i, int node_i);
+
+
+/* sin_error */
+int sin_lex(t_lexical_list *lex);
+int sin_error(char *line);
+
+/* lextical */
+t_lexical_list *run_lexer(t_info *info);
+int	ft_isbuiltin(char *tok);
+void	get_lex(t_info *info);
+void	make_lex_node(int type, t_info *info, char *val);
+
+//void set_lex(int c, t_lexical_list lex, t_info *info, int i);
+//int cmd_tok(char *tok);
+void init_lex(t_lexical_list *lex);
+
+
+/* delete_data */
+void	delete_line(t_info *info, char *line);
+
+/* src */
+void	parsing(char *line, t_info *info);
 
 #endif
 
