@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/11/25 22:08:24 by swang            ###   ########.fr       */
+/*   Updated: 2021/11/30 16:48:57 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,19 @@
 
 # define SQ 32
 # define DQ 64
-// 128,64,32,16 8,4,2,1
 
-# define PIPE 10
+# define PIPE 100
 
-# define OUT_RE 20
-# define IN_RE 21
-# define HEREDOC 22
-# define OUT_RE2 23
+# define IN_RE 101
+# define OUT_RE 102
+# define HEREDOC 103
+# define OUT_RE2 104
 
-# define CMD 30
+# define CMD 222
+# define ARG 223
 
-# define ARG 40
+
+// 128,64,32,16 8,4,2,1 
 
 typedef	struct	s_info
 {
@@ -45,6 +46,8 @@ typedef	struct	s_info
 	unsigned char	quote;
 	int		exit_stat;
 	int		*real;
+	struct s_lexical_list *lex_list;
+	struct s_parse_list *parse_list;
 }	t_info;
 
 typedef struct s_env_node
@@ -104,24 +107,29 @@ void	convert_env(char **arr, t_info *info);
 void	trim_quote(char **arr, t_info *info);
 
 /* run_parsing */
-t_parse_list *run_parsing(char *line, t_info *info);
+void	run_parser(t_info *info);
+void	make_parse_node(t_lexical_node *p, t_info *info, int i, int node_i);
+
 
 /* sin_error */
 int sin_lex(t_lexical_list *lex);
 int sin_error(char *line);
 
 /* lextical */
-void set_lex(int c, t_lexical_list lex, t_info *info, int i);
-int cmd_tok(char *tok);
-t_lexical_list get_lex(t_info *info);
-void init_lex(t_lexical_list lex);
+t_lexical_list *run_lexer(t_info *info);
+int	ft_isbuiltin(char *tok);
+void	get_lex(t_info *info);
+void	make_lex_node(int type, t_info *info, char *val);
+
+//void set_lex(int c, t_lexical_list lex, t_info *info, int i);
+//int cmd_tok(char *tok);
+void init_lex(t_lexical_list *lex);
+
+
+/* delete_data */
+void	delete_line(t_info *info, char *line);
+
+/* src */
+void	parsing(char *line, t_info *info);
 
 #endif
-
-
-
-
-
-
-
-

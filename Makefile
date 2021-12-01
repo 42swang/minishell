@@ -6,7 +6,7 @@
 #    By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 15:19:54 by swang             #+#    #+#              #
-#    Updated: 2021/11/25 22:21:10 by swang            ###   ########.fr        #
+#    Updated: 2021/11/30 16:43:10 by swang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,13 +27,18 @@ SRC_NAME = main.c\
 	init.c\
 	make_env_list.c\
 	make_path_arr.c\
-	run_parsing.c\
 	run_tokenizer.c\
+	run_lexer.c\
+	run_parser.c\
 	tokenizer_divide.c\
 	tokenizer_convert_env.c\
 	tokenizer_trim_quote.c\
-	tokenizer_utils.c
+	tokenizer_utils.c\
+	parsing.c\
+	delete_data.c
 
+#	signal.c\#
+#	sin_error.c\#
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_NAME))
 
