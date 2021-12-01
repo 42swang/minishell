@@ -133,11 +133,3 @@ void	delete_line(t_info *info, char *line);
 void	parsing(char *line, t_info *info);
 
 #endif
-
-
-
-
-
-
-
-

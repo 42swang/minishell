@@ -5,18 +5,15 @@ int sin_lex(t_lexical_list *lex)
 	int i;
 	char c;
 
-	if (lex->head->type != 2 || lex->tail->type != 2)
+	if (lex->head->type != PIPE || lex->tail->type != PIPE)
 		return (1);
 	while (lex->curr != lex->head)
 	{
-		if (lex->curr->type == 0)
+		if (lex->curr->type == -1)
+			return (1);
+		if (lex->curr->type == PIPE)
 		{
-			if (lex->curr->next->type != 2)
-				return (1);
-		}
-		else if (lex->curr->type == 1)
-		{
-			if (lex->curr->next->type != 2)
+			if (lex->curr->next->type == PIPE)
 				return (1);
 		}
 		else
@@ -26,36 +23,41 @@ int sin_lex(t_lexical_list *lex)
 	return (0);
 }
 
-//lex->type 0 = pipe , 1 = redi, 2 = word
+// cat > c > a 될텐데.. | |만 일단 검사함
 
 int sin_error(char *line)
 {
 	int x;
 	int i;
+	int y;
 
 	x = 0;
 	i = 0;
+	y = 0;
 	while (line[i])
 	{
 		if (line[i] == '\'')
-			x++;
+		{	x++;
+			while (line[i] && line[i] != '\'')
+				i++;
+			if (line[i] == '\'')
+				x++;
+		}
+		else if (line[i] == '\"')
+		{	y++;
+			while (line[i] && line[i] != '\"')
+				i++;
+			if (line[i] == '\"')
+				y++;
+		}
 		i++;
 	}
-	if ((x /= 2))
+	if ((x /= 2) || (y /= 2))
 		return (1);
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '\"')
-			x++;
-		i++;
-	}
-	if ((x /= 2))
-		return (1);
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '|' && (!(line[i + 1]) || line[i + 1] != ' '))
+		if (i == 0 || (line[i] == '|' && (!(line[i + 1]) || line[i + 1] != ' ')))
 			return (1);
 		i++;
 	}
@@ -68,7 +70,7 @@ int sin_error(char *line)
 				return (1);
 			if (line[i + 1] != ' ')
 			{
-				if (!(line[i + 2]) || line[i + 1] != line[i] || line[i + 2] != line[i])
+				if (!(line[i + 2]) || line[i + 1] != line[i] || line[i + 2] != ' ')
 					return (1);
 			}
 		}
@@ -76,6 +78,7 @@ int sin_error(char *line)
 	}
 	return (0);
 }
+
 // '개수 짝수 아니면 에러처리 하지만 \'이랗게 들어오면 (\')는 문자라고 생각하고 '개수로 안셈
 // "도 마찬가지
 // |는 딱 |만 존재해야함 다만 뒤에 아무것도 없는 |면 에러처리 (뒤에 명령어가 없는걸,,) 그리고 무조건 |뒤에는 공백이 필요.
