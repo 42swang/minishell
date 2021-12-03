@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:48 by swang             #+#    #+#             */
-/*   Updated: 2021/11/30 17:36:39 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/03 16:15:16 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	main(int argc, char *argv[], char *envp[])
 			exit(0);
 		}
 		parsing(line, &info);
+		ft_execute(&info);
 		//실행
 	  //delete_line(&info, line);
 		//렉서랑 파서 리스트 초기화

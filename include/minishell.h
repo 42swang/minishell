@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/11/30 16:48:57 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/03 16:14:25 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <signal.h>
+# include <sys/wait.h>
 
 # define SQ 32
 # define DQ 64
@@ -131,5 +132,8 @@ void	delete_line(t_info *info, char *line);
 
 /* src */
 void	parsing(char *line, t_info *info);
+void ft_execute(t_info *info);
+
+
 
 #endif
