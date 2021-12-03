@@ -2,22 +2,19 @@
 
 int	ft_isbuiltin(char *tok)
 {
-	//ft_strncmp 의 값이 양수라서 인자들도 모두 cmd의 타입을 부여받고 있었음
-	// 이렇게 비교하면 ec 같은 경우는 echo로 취급할텐데 어떻게 구체화 시키지?
-	// cat같은 일반 명령어는 어떻게 분류해내지?
-	if (ft_strncmp(tok, "echo", ft_strlen(tok)) == 0)
+	if (ft_strncmp(tok, "echo", 5) == 0)
 		return (1);
-	else if (ft_strncmp(tok, "cd", ft_strlen(tok)) == 0)
+	else if (ft_strncmp(tok, "cd", 3) == 0)
 		return (1);
-	else if (ft_strncmp(tok, "pwd", ft_strlen(tok)) == 0)
+	else if (ft_strncmp(tok, "pwd", 4) == 0)
 		return (1);
-	else if (ft_strncmp(tok, "export", ft_strlen(tok)) == 0)
+	else if (ft_strncmp(tok, "export", 7) == 0)
 		return (1);
-	else if (ft_strncmp(tok, "unset", ft_strlen(tok)) == 0)
+	else if (ft_strncmp(tok, "unset", 6) == 0)
 		return (1);
-	else if (ft_strncmp(tok, "env", ft_strlen(tok)) == 0)
+	else if (ft_strncmp(tok, "env", 4) == 0)
 		return (1);
-	else if (ft_strncmp(tok, "exit", ft_strlen(tok)) == 0)
+	else if (ft_strncmp(tok, "exit", 5) == 0)
 		return (1);
 	else
 	{
