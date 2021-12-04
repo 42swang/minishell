@@ -35,7 +35,7 @@ char **make_cmd_arr(t_parse_node *p, t_info *info)
 	char **arr;
 	int i = 0;
 	int count = 0;
-	while (p->lex[i] == CMD)
+	while (p->lex[i] != CMD)
 		i++;
 	count++;
 	i = 0;
@@ -51,7 +51,7 @@ char **make_cmd_arr(t_parse_node *p, t_info *info)
 	while (p->lex[i])
 	{
 		if (p->lex[i] == CMD)
-			arr[0] = ft_strdup(p->cmd[i]);
+			arr[i] = ft_strdup(p->cmd[i]);
 		else if (p->lex[i] == OPT)
 			arr[j++] = ft_strdup(p->cmd[i]);
 		i++;
@@ -62,10 +62,7 @@ void	run_no_pipe(t_parse_node *p, t_info *info)
 {
 	//cmd = {cat}{-e}{>}{file}
 	//lex = {CMD}{OPT}{RE}{ARG}
-	/*
-	1. 토큰화에서 옵션들어오는거 real배열에 1 넣어주기
-	2. 렉서,파서에서 옵션 추가하기
-	*/
+
 	int i;
 	char *cmd_path;
 	char *cmd_arr;
