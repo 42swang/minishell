@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <signal.h>
+# include <sys/wait.h>
 
 # define SQ 32
 # define DQ 64
@@ -128,6 +129,9 @@ int sin_error(char *line);
 /* src */
 void	delete_line(t_info *info, char *line);
 void	parsing(char *line, t_info *info);
+void ft_execute(t_info *info);
+
+
 
 
 /* execute utils*/

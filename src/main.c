@@ -34,6 +34,7 @@ int	main(int argc, char *argv[], char *envp[])
 			exit(0);
 		}
 		parsing(line, &info);
+		ft_execute(&info);
 		t_parse_node *p = info.parse_list->head;
 		int x = 0;
 		while (p)
@@ -56,7 +57,6 @@ int	main(int argc, char *argv[], char *envp[])
 			x = 0;
 			p = p->next;
 		}
-
 		//실행
 	  //delete_line(&info, line);
 		//렉서랑 파서 리스트 초기화

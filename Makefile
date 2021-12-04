@@ -36,7 +36,8 @@ SRC_NAME = main.c\
 	tokenizer_utils.c\
 	lexer_check_utils.c\
 	parsing.c\
-	delete_data.c
+	delete_data.c\
+	execute.c
 
 #	signal.c\#
 #	sin_error.c\#
