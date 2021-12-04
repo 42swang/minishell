@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/11/30 16:48:57 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/04 18:16:27 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,21 @@
 
 # define SQ 32
 # define DQ 64
+// 128,64,32,16 8,4,2,1 
 
 # define PIPE 100
 
-# define IN_RE 101
-# define OUT_RE 102
-# define HEREDOC 103
-# define OUT_RE2 104
+# define IN_RE 200
+# define HEREDOC 201
 
-# define CMD 222
-# define ARG 223
+# define OUT_RE 300
+# define OUT_RE2 301
+
+# define CMD 555
+# define OPT 556
+# define ARG 557
 
 
-// 128,64,32,16 8,4,2,1 
 
 typedef	struct	s_info
 {
@@ -93,6 +95,12 @@ void	init_info(t_info *info, char *env[]);
 char	**get_path(char	*envp[]);
 void	make_env_list(t_info *info);
 
+/* tokenizser */
+char	**run_tokenizer(char *line, t_info *info);
+char	**divide_line(char *line, t_info *info);
+void	convert_env(char **arr, t_info *info);
+void	trim_quote(char **arr, t_info *info);
+
 /* tokenizer_utils */
 int		ft_isquote(char c);
 int		ft_isredir(char c);
@@ -100,36 +108,29 @@ int		ft_ispipe(char c);
 int		ft_isdoublredir(char *str);
 void	check_quote_flag(char c, t_info *info);
 
-/* tokenizser */
-char	**run_tokenizer(char *line, t_info *info);
-char	**divide_line(char *line, t_info *info);
-void	convert_env(char **arr, t_info *info);
-void	trim_quote(char **arr, t_info *info);
+/* lexer */
+t_lexical_list *run_lexer(t_info *info);
+void	sort_token(t_info *info);
+void	make_lex_node(int type, t_info *info, char *val);
 
-/* run_parsing */
+/* lexer_utils */
+int ft_check_opt(char *tok, t_info *info, int i);
+int ft_check_cmd(t_info *info, int i);
+
+/* parser */
 void	run_parser(t_info *info);
 void	make_parse_node(t_lexical_node *p, t_info *info, int i, int node_i);
-
 
 /* sin_error */
 int sin_lex(t_lexical_list *lex);
 int sin_error(char *line);
 
-/* lextical */
-t_lexical_list *run_lexer(t_info *info);
-int	ft_isbuiltin(char *tok);
-void	get_lex(t_info *info);
-void	make_lex_node(int type, t_info *info, char *val);
-
-//void set_lex(int c, t_lexical_list lex, t_info *info, int i);
-//int cmd_tok(char *tok);
-void init_lex(t_lexical_list *lex);
-
-
-/* delete_data */
-void	delete_line(t_info *info, char *line);
-
 /* src */
+void	delete_line(t_info *info, char *line);
 void	parsing(char *line, t_info *info);
+
+
+/* execute utils*/
+int		ft_isbuiltin(char *tok);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 15:19:54 by swang             #+#    #+#              #
-#    Updated: 2021/11/30 16:43:10 by swang            ###   ########.fr        #
+#    Updated: 2021/12/04 18:17:44 by swang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRC_NAME = main.c\
 	tokenizer_convert_env.c\
 	tokenizer_trim_quote.c\
 	tokenizer_utils.c\
+	lexer_check_utils.c\
 	parsing.c\
 	delete_data.c
 

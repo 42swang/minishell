@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   run_lexer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/04 19:03:24 by swang             #+#    #+#             */
+/*   Updated: 2021/12/04 19:03:25 by swang            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	ft_isbuiltin(char *tok)
@@ -49,11 +61,11 @@ void	make_lex_node(int type, t_info *info, char *tok)
 	new = 0;
 }
 
-void	get_lex(t_info *info)
+void	sort_token(t_info *info)
 {
 	int		i;
 	char	*tok;
-
+	//빌트인 함수 이외에도 명령어 취급 해야함
 	i = 0;
 	while (info->token[i])
 	{
@@ -71,8 +83,10 @@ void	get_lex(t_info *info)
 			else if (tok[0] == '<')
 				make_lex_node(IN_RE, info, tok);
 		}
-		else if (ft_isbuiltin(tok) == 1)
+		else if (ft_check_cmd(info, i) == 1)
 			make_lex_node(CMD, info, tok);
+		else if (ft_check_opt(tok, info, i) == 1)
+			make_lex_node(OPT, info, tok);
 		else
 			make_lex_node(ARG, info, tok);
 		i++;
@@ -85,7 +99,7 @@ t_lexical_list *run_lexer(t_info *info)
 	
 	lex = (t_lexical_list *)ft_calloc(1, sizeof(t_lexical_list));
 	info->lex_list = lex;
-	get_lex(info);
+	sort_token(info);
 	return (lex);
 }
 
