@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 19:53:19 by swang             #+#    #+#             */
-/*   Updated: 2021/11/25 21:34:03 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/04 19:45:12 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static int	count_token(char *line)
 	{
 		while (line[idx] == ' ')
 			idx++;
+		if (line[idx] != ' ' && line[idx])
+			count++;
 		while (line[idx] != ' ' && line[idx])
 		{
 			if (line[idx] == '\'' || line[idx] == '\"')
@@ -44,7 +46,6 @@ static int	count_token(char *line)
 			else
 				idx++;
 		}
-		count++;
 	}
 	return (count);
 }
