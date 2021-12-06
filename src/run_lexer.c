@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 19:03:24 by swang             #+#    #+#             */
-/*   Updated: 2021/12/06 21:25:16 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/06 23:54:24 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ void	sort_token(t_info *info)
 			else if (tok[0] == '<')
 				make_lex_node(IN_RE, info, tok);
 		}
+		else if (ft_check_file(info, i) == 1)
+			ft_check_inout(info, tok);
 		else if (ft_check_cmd(info, i) == 1)
 			make_lex_node(CMD, info, tok);
 		else if (ft_check_opt(tok, info, i) == 1)
 			make_lex_node(OPT, info, tok);
-		else if (ft_check_file(info, i) == 1)
-			ft_check_inout(info, tok);
 		else
 			make_lex_node(ARG, info, tok);
 		i++;
