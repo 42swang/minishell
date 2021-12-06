@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/12/06 13:55:41 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/06 14:30:29 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef	struct	s_info
 	char	**envp;
 	char	**path;
 	char	**token;
+	char	**cmd_arr;
 	unsigned char	quote;
 	int		exit_stat;
 	int		*real;
@@ -136,5 +137,11 @@ void ft_execute(t_info *info);
 
 /* execute utils*/
 int		ft_isbuiltin(char *tok);
+char *find_cmd_path(char **arr, char *cmd);
+
+
+
+/* for test*/
+void	print_parse_list(t_info *info);
 
 #endif
