@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 19:03:24 by swang             #+#    #+#             */
-/*   Updated: 2021/12/04 19:03:25 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/06 23:54:24 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	sort_token(t_info *info)
 			else if (tok[0] == '<')
 				make_lex_node(IN_RE, info, tok);
 		}
+		else if (ft_check_file(info, i) == 1)
+			ft_check_inout(info, tok);
 		else if (ft_check_cmd(info, i) == 1)
 			make_lex_node(CMD, info, tok);
 		else if (ft_check_opt(tok, info, i) == 1)
@@ -90,14 +92,10 @@ void	sort_token(t_info *info)
 	}
 }
 
-t_lexical_list *run_lexer(t_info *info)
+void run_lexer(t_info *info)
 {
-	t_lexical_list *lex;
-	
-	lex = (t_lexical_list *)ft_calloc(1, sizeof(t_lexical_list));
-	info->lex_list = lex;
+	info->lex_list = (t_lexical_list *)ft_calloc(1, sizeof(t_lexical_list));
 	sort_token(info);
-	return (lex);
 }
 
 void init_lex(t_lexical_list *lex)

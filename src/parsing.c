@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 00:51:11 by swang             #+#    #+#             */
-/*   Updated: 2021/11/30 16:49:11 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/06 13:55:43 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	parsing(char *line, t_info *info)
 		return (-1);
 	*/
 	info->token = run_tokenizer(line, info);
-	info->lex_list = run_lexer(info);
+	run_lexer(info);
 	run_parser(info);
 	/*
 	if (sin_lex(&lex))
