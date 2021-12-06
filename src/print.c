@@ -6,13 +6,23 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:29:12 by swang             #+#    #+#             */
-/*   Updated: 2021/12/06 14:51:42 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/06 22:53:22 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	print_parse_list(t_info *info)
+void	ft_print_lex_list(t_info *info)
+{
+	t_lexical_node *ptr = info->lex_list->head;
+	while (ptr)
+	{
+		printf("		[%s][%d]\n", ptr->value, ptr->type);
+		ptr = ptr->next;
+	}
+}
+
+void	ft_print_parse_list(t_info *info)
 {
 	t_parse_node *ptr = info->parse_list->head;
 	int x = 0;
@@ -38,7 +48,7 @@ void	print_parse_list(t_info *info)
 	}
 }
 
-void	print_str_arr(char **arr)
+void	ft_print_str_arr(char **arr)
 {
 	int x = 0;
 	printf("			start print_str_arr\n");
