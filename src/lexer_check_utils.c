@@ -6,21 +6,11 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 17:19:21 by swang             #+#    #+#             */
-/*   Updated: 2021/12/06 15:23:07 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/06 21:54:40 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-// cmd인지 아닌지 체크하고, cmd 다음 토큰은 무조건 opt?
-/*
-1 리다이렉션이 아님
-	+ 파이프 다음은 무조건 명령어
-	+ 맨 처음 토큰은 무조건 명령어
-
-2. 리다이렉션 다음에 들어오는 경우
-	+ 리다이렉션 -> 파일 -> 명령어
-*/
 
 int ft_check_cmd(t_info *info, int i)
 {
@@ -55,8 +45,10 @@ int ft_check_opt(char *tok, t_info *info, int i)
 	//옵션은 젤앞에 안옴
 	if (i == 0)
 		return (0);
-	// 앞에 cmd이면서 i는 최소 1이상이고 첫글자가 -로 시작하면 옵션취급
+	// 앞에 cmd이면서 i는 최소 1이상이고-> 항상 붙어오는게 아님
+	// 첫글자가 -로 시작하면 옵션취급
 	// 앞에 옵션이면서 첫글자가 -로 시작하면 역시 옵션
+	if (앞이 리다이렉션이면?)
 	if (i > 0 && (info->real[i - 1] == 2 || info->real[i - 1] == 3))
 	{
 		if (*tok == '-')
@@ -70,33 +62,41 @@ int ft_check_opt(char *tok, t_info *info, int i)
 		return (0);
 }
 
+int ft_check_file(t_info *info, int i)
+{
+	/*
+	앞에 아무것도 없으면 이미 위에있는 cmd에 걸러졌으니 i값은 1이상일것
+	파일이 맨 처음에 오는 경우가 있을까?
+	찐 리다이렉션인지 찾아서 return 1
+	*/
+
+	if (info->real[i - 1] == 1)
+	{
+		// 내앞에가 찐 기호이면서 <이나 >로 시작하는 토큰일경우 리다이렉션이라고 판단.
+		if (info->token[i - 1][0] == '<' || info->token[i - 1][0] == '>')
+			return (1);
+		else
+			return (0);
+	}
+	return (0);
+}
+
+
+void	ft_check_inout(t_info *info, char *tok)
+{
+	if (info->lex_list->tail->type == IN_RE)
+		make_lex_node(IN_FILE, info, tok);
+	else if (info->lex_list->tail->type == OUT_RE)
+		make_lex_node(OUT_FI, info, tok);
+	else if (info->lex_list->tail->type == HEREDOC)
+		make_lex_node(HERE_FILE, info, tok);
+	else if (info->lex_list->tail->type == OUT_RE2)
+		make_lex_node(OUT_FI2, info, tok);
+}
 
 /*
-1.
-렉서 노드를 다 만들고 파서 노드를 만들 때
-ㅁㅁ | ㅁㅁㅁㅁ | ㅁㅁㅁ | ㅁㅁㅁ
-이렇게 있으면
-파서노드 맨 처음인데, 리다이렉션 기호가 아니면 CMD
-CMD 다음이면서 -로 시작하면 OPT
-
-2. 리다이렉션이 아니면서 이전 노드가 비어있거나 파이프이면 CMD
-
-
-*/
-
-
-
-/*
-
-1 리다이렉션이 아님
-	+ 파이프 다음은 무조건 명령어
-	+ 맨 처음 토큰은 무조건 명령어
-
-2. 리다이렉션 다음에 들어오는 경우
-	+ 리다이렉션 -> 파일 -> 명령어
-
-
-
-
-
+ 어?
+ ..
+ ...
+ 렉서노드 tail이 in_re이면서 내가 명령어도 아니라면 나는 infile아닌가?
 */

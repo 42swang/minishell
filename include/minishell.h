@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/12/06 14:43:20 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/06 21:25:31 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,16 @@
 # define PIPE 100
 
 # define IN_RE 200
-# define HEREDOC 201
+# define IN_FILE 201
 
-# define OUT_RE 300
-# define OUT_RE2 301
+# define HEREDOC 300
+# define HERE_FILE 301
+
+# define OUT_RE 400
+# define OUT_FI 401
+
+# define OUT_RE2 500
+# define OUT_FI2 501
 
 # define CMD 555
 # define OPT 556
@@ -118,6 +124,8 @@ void	make_lex_node(int type, t_info *info, char *val);
 /* lexer_utils */
 int ft_check_opt(char *tok, t_info *info, int i);
 int ft_check_cmd(t_info *info, int i);
+int ft_check_file(t_info *info, int i);
+void	ft_check_inout(t_info *info, char *tok);
 
 /* parser */
 void	run_parser(t_info *info);
