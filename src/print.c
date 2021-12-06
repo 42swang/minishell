@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:29:12 by swang             #+#    #+#             */
-/*   Updated: 2021/12/06 14:29:58 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/06 14:51:42 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,16 @@ void	print_parse_list(t_info *info)
 		x = 0;
 		ptr = ptr->next;
 	}
+}
+
+void	print_str_arr(char **arr)
+{
+	int x = 0;
+	printf("			start print_str_arr\n");
+	while (arr[x])
+	{
+		printf("			[%s]\n", arr[x]);
+		x++;
+	}
+	printf("			end print_str_arr\n");
 }
