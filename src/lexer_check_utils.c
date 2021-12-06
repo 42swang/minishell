@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 17:19:21 by swang             #+#    #+#             */
-/*   Updated: 2021/12/04 18:41:59 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/06 15:23:07 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,14 @@ int ft_check_opt(char *tok, t_info *info, int i)
 	if (i == 0)
 		return (0);
 	// 앞에 cmd이면서 i는 최소 1이상이고 첫글자가 -로 시작하면 옵션취급
-	if (i > 0 && info->real[i - 1] == 2)
+	// 앞에 옵션이면서 첫글자가 -로 시작하면 역시 옵션
+	if (i > 0 && (info->real[i - 1] == 2 || info->real[i - 1] == 3))
 	{
 		if (*tok == '-')
+		{
+			info->real[i] = 3;
 			return (1);
+		}
 		return (0);
 	}
 	else
