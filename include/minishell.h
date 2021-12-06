@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/12/04 18:16:27 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/06 13:55:41 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int		ft_isdoublredir(char *str);
 void	check_quote_flag(char c, t_info *info);
 
 /* lexer */
-t_lexical_list *run_lexer(t_info *info);
+void	run_lexer(t_info *info);
 void	sort_token(t_info *info);
 void	make_lex_node(int type, t_info *info, char *val);
 

@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 19:03:24 by swang             #+#    #+#             */
-/*   Updated: 2021/12/04 19:03:25 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/06 13:55:50 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,13 @@ void	sort_token(t_info *info)
 	}
 }
 
-t_lexical_list *run_lexer(t_info *info)
+void run_lexer(t_info *info)
 {
 	t_lexical_list *lex;
 	
 	lex = (t_lexical_list *)ft_calloc(1, sizeof(t_lexical_list));
 	info->lex_list = lex;
 	sort_token(info);
-	return (lex);
 }
 
 void init_lex(t_lexical_list *lex)
