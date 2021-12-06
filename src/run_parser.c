@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 15:44:02 by swang             #+#    #+#             */
-/*   Updated: 2021/12/01 13:22:38 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/06 21:24:51 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 void	run_parser(t_info *info)
 {
 	t_lexical_node *p;
-	t_parse_list *parse;
 
-	parse = (t_parse_list *)ft_calloc(1, sizeof(t_parse_list));
-	info->parse_list = parse;
+	info->parse_list = (t_parse_list *)ft_calloc(1, sizeof(t_parse_list));
 	int	i;
 	int	node_i;
 	i = 0;
