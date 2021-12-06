@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:36:19 by swang             #+#    #+#             */
-/*   Updated: 2021/12/06 14:55:49 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/06 15:14:58 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char **make_cmd_arr(t_parse_node *p, t_info *info)
 	while (p->lex[i])
 	{
 		if (p->lex[i] == CMD)
-			arr[i] = ft_strdup(p->cmd[i]);
+			arr[0] = ft_strdup(p->cmd[i]);
 		else if (p->lex[i] == OPT)
 			arr[j++] = ft_strdup(p->cmd[i]);
 		i++;
@@ -87,7 +87,7 @@ void	run_no_pipe(t_parse_node *p, t_info *info)
 	cmd_path = find_cmd_path(info->path, p->cmd[i]);
 	//printf("		access path : %s\n", cmd_path);
 	cmd_arr = make_cmd_arr(p, info);
-	//print_str_arr(cmd_arr);
+	print_str_arr(cmd_arr);
 	if(execve(cmd_path, cmd_arr, info->envp) == -1)
 		printf("command not found\n");
 	info->exit_stat = 42;
