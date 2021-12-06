@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:36:19 by swang             #+#    #+#             */
-/*   Updated: 2021/12/06 15:14:58 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/06 19:00:28 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char **make_cmd_arr(t_parse_node *p, t_info *info)
 	i = 0;
 	while (p->lex[i])
 	{
-		if (p->lex[i] == OPT)
+		if (p->lex[i] == CMD || p->lex[i] == OPT || p->lex[i] == ARG)
 			count++;
 		i++;
 	}
@@ -64,7 +64,7 @@ char **make_cmd_arr(t_parse_node *p, t_info *info)
 	{
 		if (p->lex[i] == CMD)
 			arr[0] = ft_strdup(p->cmd[i]);
-		else if (p->lex[i] == OPT)
+		else if (p->lex[i] == OPT || p->lex[i] == ARG)
 			arr[j++] = ft_strdup(p->cmd[i]);
 		i++;
 	}
