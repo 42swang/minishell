@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/12/06 14:30:29 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/06 14:43:20 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,5 +143,6 @@ char *find_cmd_path(char **arr, char *cmd);
 
 /* for test*/
 void	print_parse_list(t_info *info);
+void	print_str_arr(char **arr);
 
 #endif
