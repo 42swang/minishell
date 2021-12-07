@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/12/06 22:53:02 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/07 15:01:10 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	ft_check_inout(t_info *info, char *tok);
 
 /* parser */
 void	run_parser(t_info *info);
-void	make_parse_node(t_lexical_node *p, t_info *info, int i, int node_i);
+void	make_parse_node(t_info *info, int count, int node_i);
 
 /* sin_error */
 int sin_lex(t_lexical_list *lex);
@@ -145,6 +145,7 @@ void ft_execute(t_info *info);
 
 /* execute utils*/
 int		ft_isbuiltin(char *tok);
+char **make_cmd_arr(t_parse_node *p, t_info *info);
 char *find_cmd_path(char **arr, char *cmd);
 
 
