@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:36:19 by swang             #+#    #+#             */
-/*   Updated: 2021/12/07 16:57:00 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/08 15:31:39 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	pipe_head_node(t_info *info, t_parse_node *p)
 	int	i;
 	// 안쓰는 파이프는 닫고, 출력을 파이프로 보내는 작업
 	dup2(p->p_fd[1], 1);
-	close(p->p_fd[0]);
 	close(p->p_fd[1]);
+	close(p->p_fd[0]);
 	i = 0;
 	while (p->lex[i] != CMD)
 		i++;
@@ -82,6 +82,7 @@ void	pipe_head_node(t_info *info, t_parse_node *p)
 	}
 	else
 		run_no_pipe(p, info);
+	exit(0);
 }
 
 void	pipe_middle_node(t_info *info, t_parse_node *p)
@@ -107,7 +108,6 @@ void	pipe_middle_node(t_info *info, t_parse_node *p)
 void	pipe_tail_node(t_info *info, t_parse_node *p)
 {
 	int	i;
-	
 	// 안쓰는 파이프는 닫고, 입력을 파이프에서 받아오는 작업
 	dup2(p->prev->p_fd[0], 0);
 	close(p->p_fd[0]);
@@ -122,6 +122,7 @@ void	pipe_tail_node(t_info *info, t_parse_node *p)
 	}
 	else
 		run_no_pipe(p, info);
+	exit(0);
 }
 
 
@@ -149,7 +150,7 @@ void	run_pipe(t_info *info, t_parse_node *p)
 		if (pid[j] == 0)
 			break ;
 		wait(0);
-		j++;
+		close(p->p_fd[1]);
 		p = p->next;
 	}
 	if (j < i && pid[j] == 0)
@@ -159,17 +160,17 @@ void	run_pipe(t_info *info, t_parse_node *p)
 		//printf("in[%d], out[%d]\n", p->p_fd[0], p->p_fd[1]);
 		if (info->parse_list->head == p)
 		{
-			printf("머리\n");
+			//printf("머리\n");
 			pipe_head_node(info, p);
 		}
 		else if(p != info->parse_list->tail) //파이프 중간
 		{
-			printf("중간\n");
+			//printf("중간\n");
 			pipe_middle_node(info, p);
 		}
 		else //파이프 마지막
 		{
-			printf("끝\n");
+			//printf("끝\n");
 			pipe_tail_node(info, p);
 		}
 		exit(0); //임시종료
