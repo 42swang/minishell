@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:36:19 by swang             #+#    #+#             */
-/*   Updated: 2021/12/08 15:31:39 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/09 15:41:58 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	run_no_pipe(t_parse_node *p, t_info *info)
 	char *cmd_path;
 	char **cmd_arr;
 	i = 0;
+	
+	redirection(info, p);
 	while (p->lex[i] != CMD)
 		i++;
 	//print_str_arr(info->path);

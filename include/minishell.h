@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/12/07 15:01:10 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/09 15:41:13 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -56,6 +57,8 @@ typedef	struct	s_info
 	unsigned char	quote;
 	int		exit_stat;
 	int		*real;
+	int		*file;
+	int		file_idx;
 	struct s_lexical_list *lex_list;
 	struct s_parse_list *parse_list;
 }	t_info;
@@ -141,6 +144,9 @@ void	parsing(char *line, t_info *info);
 void ft_execute(t_info *info);
 
 
+/* re */
+void	pre_open(t_info *info);
+void	redirection(t_info *info, t_parse_node *p);
 
 
 /* execute utils*/
