@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 19:03:24 by swang             #+#    #+#             */
-/*   Updated: 2021/12/06 23:54:24 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/09 14:16:19 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ int	ft_isbuiltin(char *tok)
 	else if (ft_strncmp(tok, "exit", 5) == 0)
 		return (1);
 	else
-	{
 		return(0);
-		printf("in isbuiltin\n");
-	}
 }
 
 void	make_lex_node(int type, t_info *info, char *tok)

@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:36:19 by swang             #+#    #+#             */
-/*   Updated: 2021/12/07 15:01:32 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/08 15:31:39 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,118 @@ void	run_no_pipe(t_parse_node *p, t_info *info)
 	//비정상 프로세스 종료값 추가하기
 }
 
+void	pipe_head_node(t_info *info, t_parse_node *p)
+{
+	int	i;
+	// 안쓰는 파이프는 닫고, 출력을 파이프로 보내는 작업
+	dup2(p->p_fd[1], 1);
+	close(p->p_fd[1]);
+	close(p->p_fd[0]);
+	i = 0;
+	while (p->lex[i] != CMD)
+		i++;
+	if (ft_isbuiltin(p->cmd[i]) == 1)
+	{
+		write(2, "builtin\n", 9);
+		//run_builtin(p, info);
+	}
+	else
+		run_no_pipe(p, info);
+	exit(0);
+}
+
+void	pipe_middle_node(t_info *info, t_parse_node *p)
+{
+	int	i;
+	// 입력 출력을 파이프로
+	dup2(p->prev->p_fd[0], 0);
+	dup2(p->p_fd[1], 1);
+	close(p->p_fd[0]);
+	close(p->p_fd[1]);
+	i = 0;
+	while (p->lex[i] != CMD)
+		i++;
+	if (ft_isbuiltin(p->cmd[i]) == 1)
+	{
+		write(2, "builtin\n", 9);
+		//run_builtin(p, info);
+	}
+	else
+		run_no_pipe(p, info);
+}
+
+void	pipe_tail_node(t_info *info, t_parse_node *p)
+{
+	int	i;
+	// 안쓰는 파이프는 닫고, 입력을 파이프에서 받아오는 작업
+	dup2(p->prev->p_fd[0], 0);
+	close(p->p_fd[0]);
+	close(p->p_fd[1]);
+	i = 0;
+	while (p->lex[i] != CMD)
+		i++;
+	if (ft_isbuiltin(p->cmd[i]) == 1)
+	{
+		printf("빌트인 함수\n");
+		//run_builtin(p, info);
+	}
+	else
+		run_no_pipe(p, info);
+	exit(0);
+}
+
+
+void	run_pipe(t_info *info, t_parse_node *p)
+{
+	int i;
+	int j;
+	int *pid;
+	t_parse_node *tmp;
+
+	i = 0;
+	tmp = info->parse_list->head; 
+	while (tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	pid = (int *)ft_calloc(i + 1, sizeof(int));
+	j = 0;
+	while (j < i)
+	{
+		pipe(p->p_fd);
+		pid[j] = fork();
+		//printf("pid[%d]\n", pid[j]);
+		if (pid[j] == 0)
+			break ;
+		wait(0);
+		close(p->p_fd[1]);
+		p = p->next;
+	}
+	if (j < i && pid[j] == 0)
+	{
+		//printf("%d, %d\n", j, pid[j]);
+		//printf("pid[%d], [%d]\n", getpid(), getppid());
+		//printf("in[%d], out[%d]\n", p->p_fd[0], p->p_fd[1]);
+		if (info->parse_list->head == p)
+		{
+			//printf("머리\n");
+			pipe_head_node(info, p);
+		}
+		else if(p != info->parse_list->tail) //파이프 중간
+		{
+			//printf("중간\n");
+			pipe_middle_node(info, p);
+		}
+		else //파이프 마지막
+		{
+			//printf("끝\n");
+			pipe_tail_node(info, p);
+		}
+		exit(0); //임시종료
+	}
+}
+
 void run_execute(t_info *info)
 {
 	t_parse_node *p;
@@ -84,18 +196,7 @@ void run_execute(t_info *info)
 		if (!(p->next))
 			run_no_pipe(p, info);
 		else
-		{	
-			while (p != 0)
-			{
-				if(info->parse_list->head == p)
-					printf("파이프 있고 헤드 노드일 때\n");
-				else if(p != info->parse_list->tail) //파이프 중간
-					printf("중간 노드일 떄\n");
-				else //파이프 마지막
-					printf("마지막 노드\n");
-				p = p->next;
-			}
-		}
+			run_pipe(info, p);
 	}
 }
 
