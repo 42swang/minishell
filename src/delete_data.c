@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:00:42 by swang             #+#    #+#             */
-/*   Updated: 2021/11/26 15:12:01 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/10 16:37:10 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,35 @@ void	delete_line(t_info *info, char *line)
 	line = 0;
 	if (info->token)
 	{
+		printf("token\n");
 		ft_free(info->token);
 		info->token = 0;
 	}
-	if (info->real) 
+	if (info->real)
 	{
 		free(info->real);
 		info->real = 0;
 	}
+	if (info->file)
+	{
+		free(info->file);
+		info->file = 0;
+	}
+	if (info->path)
+	{
+		printf("path\n");
+		ft_free(info->path);
+		info->path = 0;
+	}
+	if (info->cmd_arr != 0)
+	{
+		printf("cmd_arr\n");
+		ft_free(info->cmd_arr);
+		info->cmd_arr = 0;
+	}
+//	info->lex_list = 0;
+//	info->parse_list = 0;
+	info->file_idx = 0;
 	info->quote = 0;
 }
 	/*
