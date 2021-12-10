@@ -6,12 +6,23 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:29:12 by swang             #+#    #+#             */
-/*   Updated: 2021/12/07 14:11:55 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/10 15:44:35 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+void	ft_print_env_list(t_env_list *ptr)
+{
+	t_env_node *p = ptr->head;
+	while (p)
+	{
+		printf("[%s] : [%s]\n", p->env_arr[0], p->env_arr[1]);
+		p = p->next;
+	}
+}
+
+/*
 void	ft_print_lex_list(t_info *info)
 {
 	t_lexical_node *ptr = info->lex_list->head;
@@ -63,3 +74,4 @@ void	ft_print_str_arr(char **arr)
 	}
 	printf("			end print_str_arr\n");
 }
+*/
