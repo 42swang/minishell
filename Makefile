@@ -6,7 +6,7 @@
 #    By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 15:19:54 by swang             #+#    #+#              #
-#    Updated: 2021/12/09 15:40:31 by swang            ###   ########.fr        #
+#    Updated: 2021/12/10 13:29:58 by swang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,8 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -g
 LFLAGS = -L./libft -lft
-LDFLAGS = -L/opt/homebrew/opt/readline/lib
-CPPFLAGS = -I/opt/homebrew/opt/readline/include
+##LDFLAGS = -L/opt/homebrew/opt/readline/lib
+##CPPFLAGS = -I/opt/homebrew/opt/readline/include
 
 LIB_DIR = ./libft
 
@@ -60,7 +60,9 @@ all : $(NAME)
 
 $(NAME) : $(OBJS)
 	make -C $(LIB_DIR) bonus
-	$(CC) $(CFLAGS) $(LDFLAGS) -lreadline $(CPPFLAGS) $(LFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(LFLAGS) $(OBJS) -o $(NAME)
+
+#$(CC) $(CFLAGS) $(LDFLAGS) -lreadline $(CPPFLAGS) $(LFLAGS) $(OBJS) -o $(NAME)#
 
 clean :
 	make -C $(LIB_DIR) clean
