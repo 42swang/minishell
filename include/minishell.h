@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/12/07 15:01:10 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/20 01:59:24 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,10 @@ char **make_cmd_arr(t_parse_node *p, t_info *info);
 char *find_cmd_path(char **arr, char *cmd);
 
 
+/* built-in */
+int	ft_env(t_info *info);
+int	ft_export(t_info *info, t_parse_node *p, int i);
+int	ft_unset(t_info *info, t_parse_node *p, int i);
 
 /* for test*/
 void	ft_print_parse_list(t_info *info);

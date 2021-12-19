@@ -6,13 +6,12 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:36:19 by swang             #+#    #+#             */
-/*   Updated: 2021/12/08 15:31:39 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/20 02:08:13 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/*
 void run_builtin(t_parse_node *p, t_info *info)
 {
 	char *cmd;
@@ -24,23 +23,24 @@ void run_builtin(t_parse_node *p, t_info *info)
 	while (p->lex[i] != CMD)
 		i++;
 	cmd = p->cmd[i];
+	if (ft_strncmp(cmd, "env", 4) == 0)
+		ret = ft_env(info);
+	else if (ft_strncmp(cmd, "unset", 6) == 0)
+		ret = ft_unset(info, p, i);
+	else if (ft_strncmp(cmd, "export", 7) == 0)
+		ret = ft_export(info, p, i);
+	/*
 	if (ft_strncmp(cmd, "echo", 5) == 0)
 		ret = ft_echo(p, info);
 	else if (ft_strncmp(cmd, "cd", 3) == 0)
 		ret = ft_cd(p, info);
 	else if (ft_strncmp(cmd, "pwd", 4) == 0)
 		ret = ft_pwd(p, info);
-	else if (ft_strncmp(cmd, "export", 7) == 0)
-		ret = ft_export(p, info);
-	else if (ft_strncmp(cmd, "unset", 6) == 0)
-		ret = ft_unset(p, info);
-	else if (ft_strncmp(cmd, "env", 4) == 0)
-		ret = ft_env(p, info);
 	else if (ft_strncmp(cmd, "exit", 5) == 0)
 		ret = ft_exit(p, info);
+	*/
 	info->exit_stat = ret;
 }
-*/
 
 void	run_no_pipe(t_parse_node *p, t_info *info)
 {
@@ -77,8 +77,7 @@ void	pipe_head_node(t_info *info, t_parse_node *p)
 		i++;
 	if (ft_isbuiltin(p->cmd[i]) == 1)
 	{
-		write(2, "builtin\n", 9);
-		//run_builtin(p, info);
+		run_builtin(p, info);
 	}
 	else
 		run_no_pipe(p, info);
@@ -188,8 +187,7 @@ void run_execute(t_info *info)
 		i++;
 	if (ft_isbuiltin(p->cmd[i]) && !(p->next))
 	{
-		printf("빌트인 함수 && 단일실행\n");
-		//run_builtin(p, info);
+		run_builtin(p, info);
 	}
 	else
 	{
