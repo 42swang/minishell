@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:29:12 by swang             #+#    #+#             */
-/*   Updated: 2021/12/10 15:44:35 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 03:50:55 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	ft_print_parse_list(t_info *info)
 		ptr = ptr->next;
 	}
 }
+*/
 
 void	ft_print_str_arr(char **arr)
 {
@@ -74,4 +75,3 @@ void	ft_print_str_arr(char **arr)
 	}
 	printf("			end print_str_arr\n");
 }
-*/

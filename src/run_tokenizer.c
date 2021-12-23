@@ -6,13 +6,13 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 00:59:22 by swang             #+#    #+#             */
-/*   Updated: 2021/12/10 18:55:29 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 06:48:04 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	check_sign(char *str, t_info *info)
+int	check_sign(char *str, t_info *info)
 {
 	int	i;
 
@@ -29,21 +29,19 @@ static int	check_sign(char *str, t_info *info)
 
 char	**run_tokenizer(char *line, t_info *info)
 {
-	char	**arr;
-	char	*tmp;
+	char	**devide;
+	char	**convert;
+	char	**ret;
 	int		i;
 
 	i = 0;
-	arr = divide_line(line, info);
-	while(arr[i])
-	{
-		if (check_sign(arr[i], info) == 1)
-		{
-			tmp = arr[i];
-			arr[i] = convert_env(arr[i], info);
-			free(tmp);
-		}
-	}
-	//arr = trim_quote(arr, info);
-	return (arr);
+	ret = 0;
+	devide = 0;
+	convert = 0;
+	devide = divide_line(line, info);
+	convert = convert_env(devide, info);
+	ret = trim_quote(convert, info);
+	free_2d(devide);
+	free_2d(convert);
+	return (ret);
 }

@@ -6,11 +6,32 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 22:08:18 by swang             #+#    #+#             */
-/*   Updated: 2021/12/10 15:40:57 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 05:31:34 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	free_2d(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while(arr[i])
+	{
+		free(arr[i]);
+		arr[i] = 0;
+		i++;
+	}
+	free(arr);
+	arr = 0;
+}
+
+void	ft_free(char **str)
+{
+	free(*str);
+	*str = 0;
+}
 
 void	init_info(t_info *info)
 {

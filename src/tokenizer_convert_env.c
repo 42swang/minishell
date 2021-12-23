@@ -6,35 +6,35 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:31:17 by swang             #+#    #+#             */
-/*   Updated: 2021/12/10 19:47:21 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 05:52:37 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char	*change_shell_var(char *str, t_info *info)
+static char	*change_shell_var(char *str, int *idx, t_info *info)
 {
-	int		i;
-	char	*s1;
-	char	*s2;
+	int		len;
+	char	*head;
+	char	*tail;
 	char	*ret;
 
-	i = 0;
+	len = 0;
 	ret = 0;
 	if (ft_strncmp(str, "$?", 2) == 0)
 	{
-		s1 = ft_itoa(info->exit_stat);
-		s2 = ft_substr(str, 2, ft_strlen(str) - 2);
-		ret = ft_strjoin(s1, s2);
-		free(s1);
-		free(s2);
+		head = ft_itoa(info->exit_stat);
+		len = ft_strlen(head);
+		tail = ft_substr(str, 2, ft_strlen(str) - 2);
+		ret = ft_strjoin(head, tail);
+		free(head);
+		free(tail);
 	}
+	*idx += len;
 	return (ret);
 }
 
-//------------------------------아래 새로운 함수---
-
-static char	*change_env_var(char *str, int *idx, t_info *info)
+static char	*change_env_var(char *str2, int *idx, t_info *info)
 {
 	t_env_node	*p;
 	int		len;
@@ -46,101 +46,105 @@ static char	*change_env_var(char *str, int *idx, t_info *info)
 	//str[idx] = $
 	*idx += 1;
 	len = *idx;
-	while (ft_isalnum(str[*idx]) == 1 || str[len] == '_')
+	while (ft_isalnum(str2[*idx]) == 1 || str2[len] == '_')
 		*idx += 1;
+	//idx는 지금 환경변수로 추정되는 단어의 끝 + 1의 위치임.
 	len = *idx - len;
-	if (len == (int)ft_strlen(p->env_arr[0]) && !(ft_strncmp(str, p->env_arr[0], len)))
+	//원래 문자열에서 달러사인까지의 길이 + 환경변수이름으로 추정되는 부분 - 원래문자열에서 달러사인까지의 길이 = 환경변수이름으로 추정되는 부분의 길이
+	while (p)
 	{
-
+		if ((len == (int)ft_strlen(p->env_arr[0])) && (ft_strncmp(str2 + 1, p->env_arr[0], len) == 0))
+		{ //(이름으로 추정되는 길이 == 환경변수이름이 같고, 두 문자열이 같을 때)
 			head = p->env_arr[1];
-			tail = ft_substr(str, len, ft_strlen(str + len));
+			tail = ft_substr(str2 + 1, len, ft_strlen(str2 + len));
 			ret = ft_strjoin(head, tail);
-			free(s2);
+			free(tail);
 			return (ret);
-	}
+		}
 		p = p->next;
 	}
 	//환경변수랑 겹치는 게 없을땐 빈문자열반환 (이상한환경변수는 사라짐)
-	ret = ft_substr(str, len, ft_strlen(str + len));
+	ret = ft_substr(str2 + 1, len, ft_strlen(str2 + len));
+	*idx = 0;
 	return (ret);
 }
 
-
-static char	*trim_sign(char *str, int *idx)
+int	count_arr(char **arr)
 {
-	//$"ㅁㅇㄹ" 이렇게 들어오면 $ 제거해주기
-	char	*head;
-	char	*tail;
-	char	*ret;
-
-	head = ft_substr(str, 0, *idx);
-	tail = ft_substr(str, *idx + 1, ft_strlen(str + (*idx) + 1));
-	ret = ft_strjoin(head, tail);
-	free (head);
-	free (tail);
-	*idx -= 1;
-	return (ret);
+	int	i;
+	
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
 }
 
-static char	*convert_env2(char *str, int *i, t_info *info)
+char	*convert_str2(char *str2, int *i, t_info *info)
 {
-	char	*head;
 	char	*convert;
-	char	*new;
 	int		idx;
 
-	idx = *i;
+	idx = 0;
+	convert = 0;
 	// 제거 / $? / 환경
-	head = ft_substr(str, 0, *i);
-	if (str[idx + 1] && (ft_isquote(str[idx + 1])))
-		convert = trim_sign(str, &idx);
-	else if (str[idx + 1] && str[idx + 1] == '?')
-		convert = change_shell_var(str, &idx, info);
-	else if (str[idx + 1] && (str[idx + 1] == '-' || ft_isalnum(str[idx + 1])))
-		convert = change_env_var(str[idx], &idx, info);
+	if (str2[idx + 1] && (ft_isquote(str2[idx + 1])))
+		convert = ft_substr(str2, 1, ft_strlen(str2));
+	else if (str2[idx + 1] && str2[idx + 1] == '?')
+		convert = change_shell_var(str2, &idx, info);
+	else if (str2[idx + 1] && (str2[idx + 1] == '-' || ft_isalnum(str2[idx + 1])))
+		convert = change_env_var(str2, &idx, info);
 	else
-		ft_strendl_fd("convert_env2 케이스 추가\n");
-	new = ft_strjoin(head, convert);
-	*i = idx;
-	//$USER$USER i = 0 에서 치환이 완료되면, 5를 가리키고 있어야함
-	return (con);
+		printf("in tokenizer_convert_env.c : add convert test\n");
+	*i += idx - 1;
+	//$USER$USER i = 0 에서 치환이 완료되면
+	//치환된문자열의 끝부분을 가리키고 있어야함
+	return (convert);
 }
 
-char	*convert_env(char *str, t_info *info)
+char *convert_str(t_info *info, char *str)
 {
-	// 작은따옴표 안에있느건 무시해야함
-	// 환경변수를 치환한 새로운 토큰 한개만 리턴
-	int	i;
+	int		i;
 	char	*s1;
-	char	*s2
+	char	*s2;
 	char	*tmp;
 
 	i = 0;
-	while(str[i])
+	tmp = ft_strdup(str);
+	while (tmp[i])
 	{
-		check_quote_flag(str[i], info); //sq가 켜져있으면 치환 ㄴ
-		if (!(info->quote & SQ) && str[i] == '$')
+		check_quote_flag(tmp[i], info); //sq가 켜져있으면 치환 ㄴ
+		if (!(info->quote & SQ) && tmp[i] == '$')
 		{
 			// $ + 따옴표 = 제거,  vs 그냥
-			if (str[i + 1] && (ft_isquote(str[i + 1]) || str[i + 1] == '?' || str[i + 1] == '-' || ft_isalnum(str[i])))
+			if (tmp[i + 1] && (ft_isquote(tmp[i + 1]) || tmp[i + 1] == '?' || tmp[i + 1] == '-' || ft_isalnum(tmp[i + 1])))
 			{
-				tmp = new;
 				//	치환/제거하고 변경된 i를 받을 수 있도록, 한번에 하나의 환경변수만 처리
-				s1 = ft_substr(str, 0 , i);
-				s2 = convet_env2(str + i, &i, info);
-				if (tmp)
-					free(tmp);
+				s1 = ft_substr(tmp, 0 , i);
+				s2 = convert_str2(tmp + i, &i, info);// 얘는 치환 + 그 뒤에있는거
+				ft_free(&tmp);
+				tmp = ft_strjoin(s1, s2);
+				ft_free(&s1);
+				ft_free(&s2);
 			}
-			// if문에 해당 안되면 그냥 문자열 처리하고 넘어감
 		}
+		i++;
+	}
+	return (tmp);
+}
+
+char	**convert_env(char **arr, t_info *info)
+{
+	int	i;
+	int	count;
+	char	**new;
+
+	i = 0;
+	count = count_arr(arr);
+	new = (char **)ft_calloc(count + 1, sizeof(char *));
+	while(arr[i])
+	{
+		new[i] = convert_str(info, arr[i]);
 		i++;
 	}
 	return (new);
 }
-
-/*
-//	asdfadf$dahj"kla"$ADFSAA$ssdf 이렇게 있을 때
-	head{asdfadf} / 치환함수($dahj"kla"$ADFSAA$ssdf)
-					치환($dahj) / tail{"kla"$ADFSAA$ssdf}
-
-*/

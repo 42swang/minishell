@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 00:17:29 by swang             #+#    #+#             */
-/*   Updated: 2021/12/10 15:44:13 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/23 22:00:47 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,19 @@ static t_env_node	*make_env_node(char *str)
 	return (new);
 }
 
-static void	add_env_node(t_env_list *list, t_env_node *node)
+static void	add_env_node(t_env_list **list, t_env_node **node)
 {
-	if (list->head == 0)
+	if ((*list)->head == 0)
 	{
-		list->head = node;
-		list->curr = node;
-		list->tail = node;
+		(*list)->head = *node;
+		(*list)->curr = *node;
+		(*list)->tail = *node;
 	}
 	else
 	{
-		list->tail->next = node;
-		node->prev = list->tail;
-		list->tail = node;
+		(*list)->tail->next = *node;
+		(*node)->prev = (*list)->tail;
+		(*list)->tail = *node;
 	}
 }
 
@@ -59,7 +59,7 @@ t_env_list	*make_env_list(char **envp)
 	while (envp[i])
 	{
 		node = make_env_node(envp[i]);
-		add_env_node(list, node);
+		add_env_node(&list, &node);
 		i++;
 	}
 	return (list);

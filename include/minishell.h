@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/12/07 15:01:10 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 05:51:49 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,33 @@
 
 typedef	struct	s_info
 {
-	struct s_env_node		*env_head;
+	int		*real;
+	int		*file_idx;
+	int		file;
+	int		exit_stat;
 	char	**envp;
 	char	**path;
 	char	**token;
 	char	**cmd_arr;
 	unsigned char	quote;
-	int		exit_stat;
-	int		*real;
-	struct s_lexical_list *lex_list;
-	struct s_parse_list *parse_list;
+	struct s_env_list		*env_list;
+	struct s_lexical_list	*lex_list;
+	struct s_parse_list		*parse_list;
 }	t_info;
 
 typedef struct s_env_node
 {
 	char				**env_arr;
+	struct s_env_node	*prev;
 	struct s_env_node	*next;
 }	t_env_node;
+
+typedef struct s_env_list
+{
+	struct s_env_node	*head;
+	struct s_env_node	*tail;
+	struct s_env_node	*curr;
+}	t_env_list;
 
 typedef struct	s_lexical_node
 {
@@ -99,15 +109,20 @@ typedef struct	s_parse_list
 }	t_parse_list;
 
 /* init */ 
-void	init_info(t_info *info, char *env[]);
+void	init_info(t_info *info);
+void	free_2d(char **arr);
+void	ft_free(char **str);
+int	count_arr(char **arr);
+
+int		check_sign(char *str, t_info *info);
 char	**get_path(char	*envp[]);
-void	make_env_list(t_info *info);
+t_env_list	*make_env_list(char **envp);
 
 /* tokenizser */
 char	**run_tokenizer(char *line, t_info *info);
 char	**divide_line(char *line, t_info *info);
-void	convert_env(char **arr, t_info *info);
-void	trim_quote(char **arr, t_info *info);
+char	**convert_env(char **arr, t_info *info);
+char	**trim_quote(char **arr, t_info *info);
 
 /* tokenizer_utils */
 int		ft_isquote(char c);
@@ -151,6 +166,7 @@ char *find_cmd_path(char **arr, char *cmd);
 
 
 /* for test*/
+void	ft_print_env_list(t_env_list *ptr);
 void	ft_print_parse_list(t_info *info);
 void	ft_print_str_arr(char **arr);
 void	ft_print_lex_list(t_info *info);
