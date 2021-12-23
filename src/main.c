@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:48 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 05:18:17 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 08:11:37 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	main(int argc, char *argv[], char **envp)
 		}
 		parsing(line, &info);
 		//ft_print_env_list(info.env_list);
-		ft_print_str_arr(info.token);
 		//pre_open();
 		//ft_execute(&info);
 	  	//delete_line(&info, line);

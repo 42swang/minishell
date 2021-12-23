@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 05:51:49 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 08:08:21 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef	struct	s_info
 	char	**cmd_arr;
 	unsigned char	quote;
 	struct s_env_list		*env_list;
-	struct s_lexical_list	*lex_list;
+	struct s_lex_list	*lex_list;
 	struct s_parse_list		*parse_list;
 }	t_info;
 
@@ -76,20 +76,20 @@ typedef struct s_env_list
 	struct s_env_node	*curr;
 }	t_env_list;
 
-typedef struct	s_lexical_node
+typedef struct	s_lex_node
 {
 	int		type;
 	char	*value;
-	struct s_lexical_node	*prev;
-	struct s_lexical_node	*next;
-}	t_lexical_node;
+	struct s_lex_node	*prev;
+	struct s_lex_node	*next;
+}	t_lex_node;
 
-typedef struct	s_lexical_list
+typedef struct	s_lex_list
 {
-	t_lexical_node	*head;
-	t_lexical_node	*tail;
-	t_lexical_node	*curr;
-}	t_lexical_list;
+	t_lex_node	*head;
+	t_lex_node	*tail;
+	t_lex_node	*curr;
+}	t_lex_list;
 
 typedef struct	s_parse_node
 {
@@ -132,22 +132,21 @@ int		ft_isdoublredir(char *str);
 void	check_quote_flag(char c, t_info *info);
 
 /* lexer */
-void	run_lexer(t_info *info);
-void	sort_token(t_info *info);
-void	make_lex_node(int type, t_info *info, char *val);
+t_lex_list *run_lexer(t_info *info);
+t_lex_node	*make_lex_node(int type, char *tok);
 
 /* lexer_utils */
-int ft_check_opt(char *tok, t_info *info, int i);
-int ft_check_cmd(t_info *info, int i);
+int ft_check_cmd(t_info *info, int i, t_lex_list *lex_list);
+int ft_check_opt(char *tok, t_info *info, int i, t_lex_list *lex_list);
 int ft_check_file(t_info *info, int i);
-void	ft_check_inout(t_info *info, char *tok);
+t_lex_node	*ft_check_inout(char *tok, t_lex_list *lex_list);
 
 /* parser */
 void	run_parser(t_info *info);
 void	make_parse_node(t_info *info, int count, int node_i);
 
 /* sin_error */
-int sin_lex(t_lexical_list *lex);
+int sin_lex(t_lex_list *lex);
 int sin_error(char *line);
 
 /* src */
