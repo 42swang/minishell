@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:29:12 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 08:16:06 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 10:14:37 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	ft_print_lex_list(t_info *info)
 	}
 }
 
-/*
 void	ft_print_parse_list(t_info *info)
 {
 	t_parse_node *ptr = info->parse_list->head;
@@ -62,11 +61,11 @@ void	ft_print_parse_list(t_info *info)
 			else if (ptr->lex[x] == 557)
 				printf("[ARG]\n");
 			else if (ptr->lex[x] == 100)
-				printf("[PIPE}\n");
+				printf("[PIPE]\n");
 			else if (ptr->lex[x] % 100 == 1)
 				printf("[FILE]\n");
 			else
-				printf("{REDIR]\n");
+				printf("[REDIR]\n");
 			x++;
 		}
 		printf("	------------\n");
@@ -74,7 +73,6 @@ void	ft_print_parse_list(t_info *info)
 		ptr = ptr->next;
 	}
 }
-*/
 
 void	ft_print_str_arr(char **arr)
 {

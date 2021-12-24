@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 08:08:21 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 10:16:59 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@
 typedef	struct	s_info
 {
 	int		*real;
-	int		*file_idx;
-	int		file;
+	int		file_idx;
+	int		*file;
 	int		exit_stat;
 	char	**envp;
 	char	**path;
@@ -142,8 +142,7 @@ int ft_check_file(t_info *info, int i);
 t_lex_node	*ft_check_inout(char *tok, t_lex_list *lex_list);
 
 /* parser */
-void	run_parser(t_info *info);
-void	make_parse_node(t_info *info, int count, int node_i);
+t_parse_list	*run_parser(t_info *info);
 
 /* sin_error */
 int sin_lex(t_lex_list *lex);

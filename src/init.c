@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 22:08:18 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 05:31:34 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 19:10:14 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	init_info(t_info *info)
 	info->env_list = 0;
 	info->lex_list = 0;
 	info->parse_list = 0;
+
 }
 
 /*

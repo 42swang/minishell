@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 00:59:22 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 06:48:04 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 19:22:49 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ char	**run_tokenizer(char *line, t_info *info)
 	ret = trim_quote(convert, info);
 	free_2d(devide);
 	free_2d(convert);
+
 	return (ret);
 }

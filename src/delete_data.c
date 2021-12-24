@@ -6,26 +6,11 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:00:42 by swang             #+#    #+#             */
-/*   Updated: 2021/12/10 16:37:10 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 10:18:42 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	ft_free(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		arr[i] = 0;
-		i++;
-	}
-	free(arr);
-	arr = 0;
-}
 
 void	delete_line(t_info *info, char *line)
 {
@@ -33,7 +18,7 @@ void	delete_line(t_info *info, char *line)
 	line = 0;
 	if (info->token)
 	{
-		printf("token\n");
+		//printf("token\n");
 		ft_free(info->token);
 		info->token = 0;
 	}
@@ -49,13 +34,13 @@ void	delete_line(t_info *info, char *line)
 	}
 	if (info->path)
 	{
-		printf("path\n");
+		//printf("path\n");
 		ft_free(info->path);
 		info->path = 0;
 	}
 	if (info->cmd_arr != 0)
 	{
-		printf("cmd_arr\n");
+		//printf("cmd_arr\n");
 		ft_free(info->cmd_arr);
 		info->cmd_arr = 0;
 	}

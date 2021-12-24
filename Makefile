@@ -6,7 +6,7 @@
 #    By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 15:19:54 by swang             #+#    #+#              #
-#    Updated: 2021/12/24 08:08:27 by swang            ###   ########.fr        #
+#    Updated: 2021/12/24 10:15:22 by swang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,13 +34,13 @@ SRC_NAME = main.c\
 	tokenizer_trim_quote.c\
 	run_lexer.c\
 	lexer_check_utils.c\
-	print.c
-#	make_path_arr.c\
-	make_cmd_arr.c\
 	run_parser.c\
+	make_path_arr.c\
+	make_cmd_arr.c\
 	delete_data.c\
 	execute.c\
-	find_cmd_path.c\#
+	find_cmd_path.c\
+	print.c
 
 #	signal.c\#
 #	sin_error.c\#
