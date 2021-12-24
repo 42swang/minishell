@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:36:19 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 18:56:04 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 20:00:28 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ void ft_execute(t_info *info)
 		exit(0);
 	else if (pid == 0)
 	{
-		printf("fork\n");
+		printf("in execute : fork\n");
 		run_execute(info);
 	}
 	else
