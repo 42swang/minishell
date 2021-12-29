@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 10:16:59 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 19:53:39 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 # define OPT 556
 # define ARG 557
 
-
+extern int g_exit_status;
 
 typedef	struct	s_info
 {
@@ -150,7 +150,7 @@ int sin_error(char *line);
 
 /* src */
 void	delete_line(t_info *info, char *line);
-void	parsing(char *line, t_info *info);
+int	parsing(char *line, t_info *info);
 void ft_execute(t_info *info);
 
 
@@ -168,5 +168,9 @@ void	ft_print_env_list(t_env_list *ptr);
 void	ft_print_parse_list(t_info *info);
 void	ft_print_str_arr(char **arr);
 void	ft_print_lex_list(t_info *info);
+
+void handle_signal(int signo);
+int sin_lex(t_lex_list *lex);
+int sin_error(char *line);
 
 #endif
