@@ -6,39 +6,61 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 00:17:29 by swang             #+#    #+#             */
-/*   Updated: 2021/11/25 21:44:16 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 07:31:35 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	make_env_node(char *str, t_info *info)
+static t_env_node	*make_env_node(char *str)
 {
 	t_env_node	*new;
-	t_env_node	*p;
 
 	new = (t_env_node *)ft_calloc(1, sizeof(t_env_node));
-	if (!new)
-		exit(0);
-	new->env_arr = ft_split(str, '=');
-	if (info->env_head == 0)
-		info->env_head = new;
-	else
+	if (new == 0)
 	{
-		p = info->env_head;
-		while (p->next) //p가 널이면 멈춘다.
-			p = p->next;
-		p->next = new;
-	}	//리스트 마지막 찾아서 = new;
-	new = 0;
+		ft_putendl_fd("Failed to make env node", 2);
+		exit(0); // 말록실패
+	}
+	new->env_arr = ft_split(str, '=');
+	if (new->env_arr == 0)
+	{
+		ft_putendl_fd("Failed to make env_arr", 2);
+		exit(0); // 말록실패
+	}
+	return (new);
 }
 
-void	make_env_list(t_info *info)
+static void	add_env_node(t_env_list **list, t_env_node **node)
 {
-	int	i = 0;
-	while (info->envp[i])
+	if ((*list)->head == 0)
 	{
-		make_env_node(info->envp[i], info);
+		(*list)->head = *node;
+		(*list)->curr = *node;
+		(*list)->tail = *node;
+	}
+	else
+	{
+		(*list)->tail->next = *node;
+		(*node)->prev = (*list)->tail;
+		(*list)->tail = *node;
+	}
+}
+
+t_env_list	*make_env_list(char **envp)
+{
+	t_env_list *list;
+	t_env_node *node;
+	int	i;
+
+	i = 0;
+	list = (t_env_list *)ft_calloc(1, sizeof(t_env_list));
+	node = 0;
+	while (envp[i])
+	{
+		node = make_env_node(envp[i]);
+		add_env_node(&list, &node);
 		i++;
 	}
+	return (list);
 }

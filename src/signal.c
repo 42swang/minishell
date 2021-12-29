@@ -2,22 +2,38 @@
 
 void handle_signal(int signo)
 {
+	pid_t	pid;
+	int		status;
+
+	pid = waitpid(-1, &status, WNOHANG);
 	if (signo == SIGINT)
 	{
-		//자식 프로세스 있을때 추가해야함 근데 만들어진게 없어서 어떤형식을 넣어야할지 미지수라.. 나중에 추가
-		printf("\n");
+		if (pid == -1)
+		{
+			write(1, "\nGAEPOSHELL$ ", 13);
+			g_exit_status = 1;
+		}
+		else
+		{
+			g_exit_status = 130;
+			write(1, "\n", 1);
+		}
 	}
 	else if (signo == SIGQUIT)
 	{
-		//여기도 자식 프로세스
-		printf("Quit: 3\n");
+		if (pid != -1)
+		{
+			g_exit_status = 131;
+			write(1, "Quit: 3\n", 9);
+		}
 	}
 }
 
+/*
 void sig_init()
 {
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, handle_signal);
-}
+}*/
 // main에 sig_init(); 추가
 // 헤더파일에 # include <signal.h> 추가

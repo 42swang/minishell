@@ -1,13 +1,11 @@
 #include "../include/minishell.h"
 
-int sin_lex(t_lexical_list *lex)
+int sin_lex(t_lex_list *lex)
 {
-	int i;
-	char c;
-
-	if (lex->head->type != PIPE || lex->tail->type != PIPE)
+	if (lex->head->type == PIPE || lex->tail->type == PIPE)
 		return (1);
-	while (lex->curr != lex->head)
+	lex->curr = lex->head;
+	while (lex->curr != lex->tail)
 	{
 		if (lex->curr->type == -1)
 			return (1);
@@ -52,13 +50,16 @@ int sin_error(char *line)
 		}
 		i++;
 	}
-	if ((x /= 2) || (y /= 2))
+	if ((x %= 2) || (y %= 2))
 		return (1);
 	i = 0;
 	while (line[i])
 	{
-		if (i == 0 || (line[i] == '|' && (!(line[i + 1]) || line[i + 1] != ' ')))
+		if ((line[i] == '|' && (!(line[i + 1]) || (line[i + 1] != ' '))))
+		{
+			printf("%s\n", line);
 			return (1);
+		}
 		i++;
 	}
 	i = 0;
@@ -66,11 +67,9 @@ int sin_error(char *line)
 	{
 		if (line[i] == '>' || line[i] == '<')
 		{
-			if (!(line[i + 1]))
-				return (1);
-			if (line[i + 1] != ' ')
+			if (line[i + 1] != ' ' && (line[i + 1]))
 			{
-				if (!(line[i + 2]) || line[i + 1] != line[i] || line[i + 2] != ' ')
+				if (line[i + 1] != line[i] || line[i + 2] != ' ')
 					return (1);
 			}
 		}
@@ -78,7 +77,6 @@ int sin_error(char *line)
 	}
 	return (0);
 }
-
 // '개수 짝수 아니면 에러처리 하지만 \'이랗게 들어오면 (\')는 문자라고 생각하고 '개수로 안셈
 // "도 마찬가지
 // |는 딱 |만 존재해야함 다만 뒤에 아무것도 없는 |면 에러처리 (뒤에 명령어가 없는걸,,) 그리고 무조건 |뒤에는 공백이 필요.

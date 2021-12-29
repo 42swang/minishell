@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/12/20 01:59:24 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 19:53:39 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -44,42 +45,52 @@
 # define OPT 556
 # define ARG 557
 
-
+extern int g_exit_status;
 
 typedef	struct	s_info
 {
-	struct s_env_node		*env_head;
+	int		*real;
+	int		file_idx;
+	int		*file;
+	int		exit_stat;
 	char	**envp;
 	char	**path;
 	char	**token;
 	char	**cmd_arr;
 	unsigned char	quote;
-	int		exit_stat;
-	int		*real;
-	struct s_lexical_list *lex_list;
-	struct s_parse_list *parse_list;
+	struct s_env_list		*env_list;
+	struct s_lex_list	*lex_list;
+	struct s_parse_list		*parse_list;
 }	t_info;
 
 typedef struct s_env_node
 {
 	char				**env_arr;
+	struct s_env_node	*prev;
 	struct s_env_node	*next;
 }	t_env_node;
 
-typedef struct	s_lexical_node
+typedef struct s_env_list
+{
+	struct s_env_node	*head;
+	struct s_env_node	*tail;
+	struct s_env_node	*curr;
+}	t_env_list;
+
+typedef struct	s_lex_node
 {
 	int		type;
 	char	*value;
-	struct s_lexical_node	*prev;
-	struct s_lexical_node	*next;
-}	t_lexical_node;
+	struct s_lex_node	*prev;
+	struct s_lex_node	*next;
+}	t_lex_node;
 
-typedef struct	s_lexical_list
+typedef struct	s_lex_list
 {
-	t_lexical_node	*head;
-	t_lexical_node	*tail;
-	t_lexical_node	*curr;
-}	t_lexical_list;
+	t_lex_node	*head;
+	t_lex_node	*tail;
+	t_lex_node	*curr;
+}	t_lex_list;
 
 typedef struct	s_parse_node
 {
@@ -99,15 +110,20 @@ typedef struct	s_parse_list
 }	t_parse_list;
 
 /* init */ 
-void	init_info(t_info *info, char *env[]);
+void	init_info(t_info *info);
+void	free_2d(char **arr);
+void	ft_free(char **str);
+int	count_arr(char **arr);
+
+int		check_sign(char *str, t_info *info);
 char	**get_path(char	*envp[]);
-void	make_env_list(t_info *info);
+t_env_list	*make_env_list(char **envp);
 
 /* tokenizser */
 char	**run_tokenizer(char *line, t_info *info);
 char	**divide_line(char *line, t_info *info);
-void	convert_env(char **arr, t_info *info);
-void	trim_quote(char **arr, t_info *info);
+char	**convert_env(char **arr, t_info *info);
+char	**trim_quote(char **arr, t_info *info);
 
 /* tokenizer_utils */
 int		ft_isquote(char c);
@@ -117,30 +133,31 @@ int		ft_isdoublredir(char *str);
 void	check_quote_flag(char c, t_info *info);
 
 /* lexer */
-void	run_lexer(t_info *info);
-void	sort_token(t_info *info);
-void	make_lex_node(int type, t_info *info, char *val);
+t_lex_list *run_lexer(t_info *info);
+t_lex_node	*make_lex_node(int type, char *tok);
 
 /* lexer_utils */
-int ft_check_opt(char *tok, t_info *info, int i);
-int ft_check_cmd(t_info *info, int i);
+int ft_check_cmd(t_info *info, int i, t_lex_list *lex_list);
+int ft_check_opt(char *tok, t_info *info, int i, t_lex_list *lex_list);
 int ft_check_file(t_info *info, int i);
-void	ft_check_inout(t_info *info, char *tok);
+t_lex_node	*ft_check_inout(char *tok, t_lex_list *lex_list);
 
 /* parser */
-void	run_parser(t_info *info);
-void	make_parse_node(t_info *info, int count, int node_i);
+t_parse_list	*run_parser(t_info *info);
 
 /* sin_error */
-int sin_lex(t_lexical_list *lex);
+int sin_lex(t_lex_list *lex);
 int sin_error(char *line);
 
 /* src */
 void	delete_line(t_info *info, char *line);
-void	parsing(char *line, t_info *info);
+int	parsing(char *line, t_info *info);
 void ft_execute(t_info *info);
 
 
+/* re */
+void	pre_open(t_info *info);
+void	redirection(t_info *info, t_parse_node *p);
 
 
 /* execute utils*/
@@ -155,8 +172,13 @@ int	ft_export(t_info *info, t_parse_node *p, int i);
 int	ft_unset(t_info *info, t_parse_node *p, int i);
 
 /* for test*/
+void	ft_print_env_list(t_env_list *ptr);
 void	ft_print_parse_list(t_info *info);
 void	ft_print_str_arr(char **arr);
 void	ft_print_lex_list(t_info *info);
+
+void handle_signal(int signo);
+int sin_lex(t_lex_list *lex);
+int sin_error(char *line);
 
 #endif
