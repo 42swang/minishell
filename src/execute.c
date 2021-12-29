@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:36:19 by swang             #+#    #+#             */
-/*   Updated: 2021/12/09 15:41:58 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 20:00:28 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,10 @@ void	run_no_pipe(t_parse_node *p, t_info *info)
 	redirection(info, p);
 	while (p->lex[i] != CMD)
 		i++;
-	//print_str_arr(info->path);
 	cmd_path = find_cmd_path(info->path, p->cmd[i]);
-	//printf("		access path : %s\n", cmd_path);
+	printf("		access path : %s\n", cmd_path);
 	cmd_arr = make_cmd_arr(p, info);
-	//ft_print_str_arr(cmd_arr);
+	ft_print_str_arr(cmd_arr);
 	if(execve(cmd_path, cmd_arr, info->envp) == -1)
 		printf("command not found\n");
 	info->exit_stat = 42;
@@ -210,7 +209,10 @@ void ft_execute(t_info *info)
 	if (pid < 0)
 		exit(0);
 	else if (pid == 0)
+	{
+		printf("in execute : fork\n");
 		run_execute(info);
+	}
 	else
 		wait(NULL);
 }
