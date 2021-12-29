@@ -51,6 +51,8 @@ void	run_no_pipe(t_parse_node *p, t_info *info)
 	char *cmd_path;
 	char **cmd_arr;
 	i = 0;
+	
+	redirection(info, p);
 	while (p->lex[i] != CMD)
 		i++;
 	cmd_path = find_cmd_path(info->path, p->cmd[i]);

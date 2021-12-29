@@ -48,13 +48,10 @@ void	init_info(t_info *info)
 	info->env_list = 0;
 	info->lex_list = 0;
 	info->parse_list = 0;
-
 }
 
-/*
 void	sig_init()
 {
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, handle_signal);
 }
-*/

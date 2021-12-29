@@ -16,8 +16,8 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -g
 LFLAGS = -L./libft -lft
-LDFLAGS = -L/opt/homebrew/opt/readline/lib
-CPPFLAGS = -I/opt/homebrew/opt/readline/include
+##LDFLAGS = -L/opt/homebrew/opt/readline/lib
+##CPPFLAGS = -I/opt/homebrew/opt/readline/include
 
 LIB_DIR = ./libft
 
@@ -40,6 +40,7 @@ SRC_NAME = main.c\
 	delete_data.c\
 	execute.c\
 	find_cmd_path.c\
+	redirection.c\
 	print.c\
 	signal.c\
 	sin_error.c
@@ -58,7 +59,9 @@ all : $(NAME)
 
 $(NAME) : $(OBJS)
 	make -C $(LIB_DIR) bonus
-	$(CC) $(CFLAGS) $(LDFLAGS) -lreadline $(CPPFLAGS) $(LFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(LFLAGS) $(OBJS) -o $(NAME)
+
+#$(CC) $(CFLAGS) $(LDFLAGS) -lreadline $(CPPFLAGS) $(LFLAGS) $(OBJS) -o $(NAME)#
 
 clean :
 	make -C $(LIB_DIR) clean

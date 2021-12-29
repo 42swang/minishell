@@ -16,6 +16,7 @@
 # include "../libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -154,6 +155,9 @@ int	parsing(char *line, t_info *info);
 void ft_execute(t_info *info);
 
 
+/* re */
+void	pre_open(t_info *info);
+void	redirection(t_info *info, t_parse_node *p);
 
 
 /* execute utils*/
