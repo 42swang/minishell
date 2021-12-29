@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 15:09:47 by swang             #+#    #+#             */
-/*   Updated: 2021/12/09 15:56:00 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/29 16:29:19 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 void	pre_open(t_info *info)
 {
 	int	i;
-	t_lexical_node *ptr;
+	t_lex_node *ptr;
 
 	i = 0;
 	ptr = info->lex_list->head;
