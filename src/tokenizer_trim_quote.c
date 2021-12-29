@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 12:50:36 by swang             #+#    #+#             */
-/*   Updated: 2021/11/25 22:08:21 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 06:46:10 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	check_case(char **arr, t_info *info)
 	}
 }
 
+/*
 static char	*trim_quote3(char *str, char c, int *jj)
 {
 	int		jjj;
@@ -55,61 +56,95 @@ static char	*trim_quote3(char *str, char c, int *jj)
 	free(s1);
 	free(s2);
 	return (ret); 
+}*/
+
+static char	*trim_quote4(char *trim, int *i, char q)
+{
+	char	*head;
+	char	*tail;
+	char	*ret;
+	int	len;
+
+	len = 0;
+	while (trim[len] != q)
+		len++;
+	// trim[len] = q;
+	head = ft_substr(trim, 0, len);
+	tail = ft_substr(trim, len + 1, ft_strlen(trim + len + 1));
+	ret = ft_strjoin(head, tail);
+	*i += len;
+	ft_free(&head);
+	ft_free(&tail);
+	return (ret);
 }
 
-static void	trim_quote2(char **str, int *j, char c, t_info *info)
+static char	*trim_quote3(char *str, int *i, char q, t_info *info)
 {
-	char	*line;
-	char	*temp;
-	char	*s1;
-	char	*s2;
-	int		jj;
+	char	*head;
+	char	*trim;
+	char	*ret;
 
-	line = *str;
-	jj = *j;
 	while (info->quote & SQ || info->quote & DQ)
 	{
-		//line[jj] = 여는 따옴표
-		s1 = ft_substr(line , 0, jj);
-		// 따옴표 전까지 문자열하나 만들어준다
-		s2 = trim_quote3(line + jj + 1, c, &jj);
-		// s2는 여는 따옴표 다음인덱스부터 시작해서 따옴표를 제거하고 이어서 문자열의 끝까지 문자열을 만들어준다.
-		temp = *str;
-		*str = ft_strjoin(s1, s2);
-		free(s1);
-		free(s2);
-		free(temp);
+		head = ft_substr(str , 0, *i);
+		// 따옴표 전까지 문자열
+		trim = trim_quote4(str + (*i) + 1, i, q);
+		//따옴표 바로 다음 문자부터 이어지는 문자열
+		ret = ft_strjoin(head, trim);
+		ft_free(&head);
+		ft_free(&trim);
 		if (info->quote & SQ)
 			info->quote &= ~SQ;
 		else if (info->quote & DQ)
 			info->quote &= ~DQ;
 	}
-	*j = jj;
-	// 이제 jj는 어디를 가리키고 있어야 하는가? 따옴표 바로 다음 문자의 "바뀐문자열에서 위치"
-	//j 의 인덱스를 jj가 그대로 받아서 이동시켰기 떄문에 더하지않고 jj값을 그냥 넣어줌
+	return (ret);
 }
 
-void	trim_quote(char **arr, t_info *info)
+static char	*trim_quote2(char *str, t_info *info)
+{
+	int	i;
+	char	*ret;
+	char	*tmp;
+
+	i = 0;
+	ret = ft_strdup(str);
+	while (ret[i])
+	{
+		check_quote_flag(ret[i], info);
+		if (info->quote & SQ)
+		{
+			tmp = ret;
+			ret = trim_quote3(ret, &i, '\'', info);
+			ft_free(&tmp);
+		}
+		else if (info->quote & DQ)
+		{
+			tmp = ret;
+			ret = trim_quote3(ret, &i, '\"', info);
+			ft_free(&tmp);
+		}
+		else
+			i++;
+	}
+	return (ret);
+}
+
+char	**trim_quote(char **arr, t_info *info)
 {
 	// 가장 바깥쪽 따옴표 제거. {>} {<} {>>} {<<} 일 때는 인트배열에 참인지 기록하기 
 	int	i;
-	int	j;
+	char	**ret;
+	int	count;
 
 	i = 0;
+	count = count_arr(arr);
+	ret = (char **)ft_calloc(count + 1, sizeof(char *));
 	check_case(arr, info);
 	while (arr[i])
 	{
-		j = 0;
-		while (arr[i][j])
-		{
-			check_quote_flag(arr[i][j], info);
-			if (info->quote & SQ)
-				trim_quote2(&arr[i], &j, '\'', info);
-			else if (info->quote & DQ)
-				trim_quote2(&arr[i], &j, '\"', info);
-			else
-				j++;
-		}
+		ret[i] = trim_quote2(arr[i], info);
 		i++;
 	}
+	return (ret);
 }

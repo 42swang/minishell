@@ -6,18 +6,40 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:29:12 by swang             #+#    #+#             */
-/*   Updated: 2021/12/07 14:11:55 by swang            ###   ########.fr       */
+/*   Updated: 2021/12/24 10:14:37 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+void	ft_print_env_list(t_env_list *ptr)
+{
+	t_env_node *p = ptr->head;
+	while (p)
+	{
+		printf("[%s] : [%s]\n", p->env_arr[0], p->env_arr[1]);
+		p = p->next;
+	}
+}
+
 void	ft_print_lex_list(t_info *info)
 {
-	t_lexical_node *ptr = info->lex_list->head;
+	t_lex_node *ptr = info->lex_list->head;
 	while (ptr)
 	{
-		printf("		[%s][%d]\n", ptr->value, ptr->type);
+		printf("		[%s]", ptr->value);
+		if (ptr->type == 100)
+			printf(":PIPE\n");
+		else if (ptr->type % 100 == 0)
+			printf(":REDIR\n");
+		else if (ptr->type % 100 == 1)
+			printf(":FILE\n");
+		else if (ptr->type == 555)
+			printf(":CMD\n");
+		else if (ptr->type == 556)
+			printf(":OPT\n");
+		else if (ptr->type == 557)
+			printf(":ARG\n");
 		ptr = ptr->next;
 	}
 }
@@ -39,11 +61,11 @@ void	ft_print_parse_list(t_info *info)
 			else if (ptr->lex[x] == 557)
 				printf("[ARG]\n");
 			else if (ptr->lex[x] == 100)
-				printf("[PIPE}\n");
+				printf("[PIPE]\n");
 			else if (ptr->lex[x] % 100 == 1)
 				printf("[FILE]\n");
 			else
-				printf("{REDIR]\n");
+				printf("[REDIR]\n");
 			x++;
 		}
 		printf("	------------\n");

@@ -6,7 +6,7 @@
 #    By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 15:19:54 by swang             #+#    #+#              #
-#    Updated: 2021/12/07 15:03:53 by swang            ###   ########.fr        #
+#    Updated: 2021/12/24 10:15:22 by swang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,17 +26,17 @@ SRC_DIR = src/
 SRC_NAME = main.c\
 	init.c\
 	make_env_list.c\
-	make_path_arr.c\
-	make_cmd_arr.c\
-	run_tokenizer.c\
-	run_lexer.c\
-	run_parser.c\
 	tokenizer_divide.c\
 	tokenizer_convert_env.c\
-	tokenizer_trim_quote.c\
 	tokenizer_utils.c\
-	lexer_check_utils.c\
 	parsing.c\
+	run_tokenizer.c\
+	tokenizer_trim_quote.c\
+	run_lexer.c\
+	lexer_check_utils.c\
+	run_parser.c\
+	make_path_arr.c\
+	make_cmd_arr.c\
 	delete_data.c\
 	execute.c\
 	find_cmd_path.c\
