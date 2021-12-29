@@ -40,6 +40,9 @@ SRC_NAME = main.c\
 	delete_data.c\
 	execute.c\
 	find_cmd_path.c\
+	ft_env.c\
+	ft_unset.c\
+	ft_export.c\
 	redirection.c\
 	print.c\
 	signal.c\

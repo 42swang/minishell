@@ -166,6 +166,10 @@ char **make_cmd_arr(t_parse_node *p, t_info *info);
 char *find_cmd_path(char **arr, char *cmd);
 
 
+/* built-in */
+int	ft_env(t_info *info);
+int	ft_export(t_info *info, t_parse_node *p, int i);
+int	ft_unset(t_info *info, t_parse_node *p, int i);
 
 /* for test*/
 void	ft_print_env_list(t_env_list *ptr);
