@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:48 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 20:01:52 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/11 18:36:54 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ int	main(int argc, char *argv[], char **envp)
 	init_info(&info);
 	info.path = get_path(envp);
 	info.env_list = make_env_list(envp);
-	while(42)
+	while(42 && *(info.run_exit) != 1)
 	{
+		
 		line = readline("GAEPOSHELL$ ");
 		if (line)//*line
 			add_history(line);
@@ -40,14 +41,25 @@ int	main(int argc, char *argv[], char **envp)
 			exit(0);
 		}
 		if (sin_error(line))
-			printf("sin error1\n");
+			printf("bash: syntax error\n");
 		else if (parsing(line, &info) == -1)
-			printf("sin error2\n");
+			printf("bash: syntax error\n");
 		else
 			ft_execute(&info);
+		printf("info %d,%d\n", *(info.run_exit), info.exit_stat);
+		if (*(info.run_exit) == 1)
+		{
+			printf("test1 %d %d\n", info.exit_stat, *(info.run_exit));
+			exit(255);
+		}
+		printf("test2 %d %d\n", info.exit_stat, *(info.run_exit));
+	//*
+	//*
+	//자식프로세스가 info->내용물을 수정했을 떄 반영되지않음.
+	//*
+	//*
+	//delete_line(&info, line);
 		//parsing(line, &info);
-		//pre_open();
-		//delete_line(info, line);
 	}
 	//인포에있는거 초기화...
 	//프로그램 종료 전 실행해야하는 것들

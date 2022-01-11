@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 19:53:39 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/11 18:33:55 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef	struct	s_info
 	int		file_idx;
 	int		*file;
 	int		exit_stat;
-	char	**envp;
+	int		*run_exit;
 	char	**path;
 	char	**token;
 	char	**cmd_arr;
@@ -176,9 +176,12 @@ void	ft_print_env_list(t_env_list *ptr);
 void	ft_print_parse_list(t_info *info);
 void	ft_print_str_arr(char **arr);
 void	ft_print_lex_list(t_info *info);
+void	ft_print_fd(int *fd);
 
 void handle_signal(int signo);
 int sin_lex(t_lex_list *lex);
 int sin_error(char *line);
+
+int ft_exit(t_parse_node *p, t_info *info);
 
 #endif

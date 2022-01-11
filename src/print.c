@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:29:12 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 10:14:37 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/11 18:29:12 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,16 @@ void	ft_print_env_list(t_env_list *ptr)
 	{
 		printf("[%s] : [%s]\n", p->env_arr[0], p->env_arr[1]);
 		p = p->next;
+	}
+}
+
+void	ft_print_fd(int *fd)
+{
+	int i = 0;
+	while (fd[i])
+	{
+		printf("fd[i] : %d\n", fd[i]);
+		i++;
 	}
 }
 
@@ -77,11 +87,12 @@ void	ft_print_parse_list(t_info *info)
 void	ft_print_str_arr(char **arr)
 {
 	int x = 0;
-	printf("			start print_str_arr\n");
+	printf("--------start------\n");
 	while (arr[x])
 	{
-		printf("			[%s]\n", arr[x]);
+		printf("cmd_arr[%d]			[%s]\n", x, arr[x]);
 		x++;
 	}
-	printf("			end print_str_arr\n");
+	printf("--------end-------\n");
+
 }

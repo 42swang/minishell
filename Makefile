@@ -6,7 +6,7 @@
 #    By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 15:19:54 by swang             #+#    #+#              #
-#    Updated: 2021/12/29 16:31:07 by swang            ###   ########.fr        #
+#    Updated: 2022/01/05 21:22:57 by swang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,13 +40,15 @@ SRC_NAME = main.c\
 	delete_data.c\
 	execute.c\
 	find_cmd_path.c\
-	ft_env.c\
-	ft_unset.c\
-	ft_export.c\
 	redirection.c\
 	print.c\
 	signal.c\
+	ft_exit.c\
 	sin_error.c
+
+#	ft_env.c#
+#	ft_unset.c#
+#	ft_export.c#
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_NAME))
 
