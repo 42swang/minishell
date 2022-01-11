@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:36:19 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 20:00:28 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/11 18:30:02 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,26 @@ void run_builtin(t_parse_node *p, t_info *info)
 	while (p->lex[i] != CMD)
 		i++;
 	cmd = p->cmd[i];
+	
+	/*
 	if (ft_strncmp(cmd, "env", 4) == 0)
 		ret = ft_env(info);
 	else if (ft_strncmp(cmd, "unset", 6) == 0)
 		ret = ft_unset(info, p, i);
 	else if (ft_strncmp(cmd, "export", 7) == 0)
 		ret = ft_export(info, p, i);
-	/*
 	if (ft_strncmp(cmd, "echo", 5) == 0)
 		ret = ft_echo(p, info);
 	else if (ft_strncmp(cmd, "cd", 3) == 0)
 		ret = ft_cd(p, info);
 	else if (ft_strncmp(cmd, "pwd", 4) == 0)
 		ret = ft_pwd(p, info);
-	else if (ft_strncmp(cmd, "exit", 5) == 0)
-		ret = ft_exit(p, info);
 	*/
+	if (ft_strncmp(cmd, "exit", 5) == 0)
+	{
+		printf("exit func\n");
+		ret = ft_exit(p, info);
+	}
 	info->exit_stat = ret;
 }
 
@@ -52,18 +56,25 @@ void	run_no_pipe(t_parse_node *p, t_info *info)
 	char **cmd_arr;
 	i = 0;
 	
+	//printf("in no_pipe\n");
+	//printf("%d\n", p->lex[0]);
 	redirection(info, p);
 	while (p->lex[i] != CMD)
 		i++;
 	cmd_path = find_cmd_path(info->path, p->cmd[i]);
-	printf("		access path : %s\n", cmd_path);
+//	printf("		access path : %s\n", cmd_path);
 	cmd_arr = make_cmd_arr(p, info);
-	ft_print_str_arr(cmd_arr);
+//	ft_print_str_arr(cmd_arr);
+//	ft_print_fd(p->lex);
+//	ft_putendl_fd("why", 2);
+	//printf("여긴가\n");
 	if(execve(cmd_path, cmd_arr, info->envp) == -1)
 		printf("command not found\n");
 	info->exit_stat = 42;
+//	printf("탈출2\n");
 	exit(0); //자식프로세스 종료
 	//비정상 프로세스 종료값 추가하기
+	
 }
 
 void	pipe_head_node(t_info *info, t_parse_node *p)
@@ -117,7 +128,7 @@ void	pipe_tail_node(t_info *info, t_parse_node *p)
 		i++;
 	if (ft_isbuiltin(p->cmd[i]) == 1)
 	{
-		printf("빌트인 함수\n");
+		//printf("빌트인 함수\n");
 		//run_builtin(p, info);
 	}
 	else
@@ -133,6 +144,7 @@ void	run_pipe(t_info *info, t_parse_node *p)
 	int *pid;
 	t_parse_node *tmp;
 
+	//printf("in runpie\n");
 	i = 0;
 	tmp = info->parse_list->head; 
 	while (tmp)
@@ -182,34 +194,45 @@ void run_execute(t_info *info)
 	t_parse_node *p;
 	int	i;
 
+	//printf("in run_exe12313213123121\n");
 	p = info->parse_list->head;
 	i = 0;
-	while (p->lex[i] != CMD)
+	while (p->lex[i] && p->lex[i] != CMD)
 		i++;
 	if (ft_isbuiltin(p->cmd[i]) && !(p->next))
 	{
+		//printf("is builtin\n");
 		run_builtin(p, info);
 	}
 	else
 	{
 		if (!(p->next))
+		{
+			//printf("no pipe\n");
 			run_no_pipe(p, info);
+		}
 		else
+		{
+			//printf("pipe\n");			
 			run_pipe(info, p);
+		}
 	}
+//	printf("out\n");
 }
 
 void ft_execute(t_info *info)
 {
 	int	pid;
 
+	//printf("in execute\n");
 	pid = fork();
 	if (pid < 0)
 		exit(0);
 	else if (pid == 0)
 	{
-		printf("in execute : fork\n");
+		//printf("in else if\n");
 		run_execute(info);
+		//exit(info->exit_stat);
 	}
 	else
 		wait(NULL);

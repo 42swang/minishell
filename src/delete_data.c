@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:00:42 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 10:18:42 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/03 17:17:28 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	delete_line(t_info *info, char *line)
 	}
 //	info->lex_list = 0;
 //	info->parse_list = 0;
-	info->file_idx = 0;
-	info->quote = 0;
+//	info->file_idx = 0;
+//	info->quote = 0;
 }
 	/*
 		line과 관련된 애들 정보 지우기 (새 라인을 받아올거니까)

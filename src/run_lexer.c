@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 19:03:24 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 08:10:34 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/11 18:37:01 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int	ft_isbuiltin(char *tok)
 {
-	if (ft_strncmp(tok, "echo", 5) == 0)
+	if (tok == NULL)
+		return (0);
+	else if (ft_strncmp(tok, "echo", 5) == 0)
 		return (1);
 	else if (ft_strncmp(tok, "cd", 3) == 0)
 		return (1);
@@ -108,6 +110,7 @@ t_lex_list	*sort_token(t_info *info)
 	while (info->token[i])
 	{
 		tok = info->token[i];
+//		printf("tok == %s\n", tok);
 		if (info->real[i] == 1)
 			node = sort_token_real(tok);
 		else
