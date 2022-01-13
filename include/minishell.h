@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 19:53:39 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/13 16:02:11 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 
 # define SQ 32
 # define DQ 64
@@ -33,7 +34,7 @@
 # define IN_FILE 201
 
 # define HEREDOC 300
-# define HERE_FILE 301
+# define HERE_DEL 301
 
 # define OUT_RE 400
 # define OUT_FI 401
@@ -180,5 +181,7 @@ void	ft_print_lex_list(t_info *info);
 void handle_signal(int signo);
 int sin_lex(t_lex_list *lex);
 int sin_error(char *line);
-
+void	here_document(t_parse_node *p, int idx);
+void	ft_isheredoc(t_info *info);
+void	find_heredoc_p(t_parse_node *p);
 #endif

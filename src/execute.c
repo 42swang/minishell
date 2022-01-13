@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:36:19 by swang             #+#    #+#             */
-/*   Updated: 2022/01/11 22:05:21 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/13 15:52:46 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ void	run_no_pipe(t_parse_node *p, t_info *info)
 	i = 0;
 	
 	redirection(info, p);
-	while (p->lex[i] != CMD)
+	while (p->lex[i] && p->lex[i] != CMD)
 		i++;
+	if (p->lex[i] == 0 && p->lex[0] == HEREDOC)
+		exit(0); //히얼독일때 cmd없음, 종료값 어떻게 할거? -> bash 따라 0S
 	cmd_path = find_cmd_path(info->path, p->cmd[i]);
 //	printf("		access path : %s\n", cmd_path);
 	cmd_arr = make_cmd_arr(p, info);
@@ -187,19 +189,30 @@ void run_execute(t_info *info)
 
 	p = info->parse_list->head;
 	i = 0;
-	ft_isheredoc(p);
-	while (p->lex[i] != CMD)
+	ft_isheredoc(info);
+	while (p->lex[i] && p->lex[i] != CMD)
 		i++;
+	// p->lex[i]가 존재할 때 조건을 빼먹어서 p->lex[i]의 값이 이상한 곳을 참조하고있었음
+	// CMD가 없을 때 임시로 i값을 0으로 두었더니 히얼독의 경우 실행파트에서 command not found가 뜬다.
+	if (p->lex[i] == 0)
+		i = 0;
 	if (ft_isbuiltin(p->cmd[i]) && !(p->next))
 	{
+		ft_putendl_fd("go builtin", 2);
 		run_builtin(p, info);
 	}
 	else
 	{
 		if (!(p->next))
+		{
+			ft_putendl_fd("go run_no_pipe", 2);
 			run_no_pipe(p, info);
+		}
 		else
+		{
+			ft_putendl_fd("go run_pipe", 2);
 			run_pipe(info, p);
+		}	
 	}
 }
 

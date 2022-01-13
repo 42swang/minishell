@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 15:09:47 by swang             #+#    #+#             */
-/*   Updated: 2022/01/13 14:56:38 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/13 16:02:44 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,8 @@ void	redirection(t_info *info, t_parse_node *p)
 		}
 		i++;
 	}
-	//리다이렉션 끝나면 모든 파일 닫기 (언링크) 히얼독파일있으면 언링크
-	//printf("탈출\n");
+	ft_putendl_fd("in redirection", 2);
+	find_heredoc_p(p);
 }
 
 // t어쩌구 함수 터미널조작함수 -> ^C안나오게하려고
