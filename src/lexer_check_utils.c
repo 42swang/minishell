@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 17:19:21 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 08:07:27 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/11 21:05:45 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ t_lex_node	*ft_check_inout(char *tok, t_lex_list *lex_list)
 	else if (lex_list->tail->type == OUT_RE)
 		node = make_lex_node(OUT_FI, tok);
 	else if (lex_list->tail->type == HEREDOC)
-		node = make_lex_node(HERE_FILE, tok);
+		node = make_lex_node(HERE_DEL, tok);
 	else if (lex_list->tail->type == OUT_RE2)
 		node = make_lex_node(OUT_FI2, tok);
 	return (node);

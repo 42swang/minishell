@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:36:19 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 20:00:28 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/11 22:05:21 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,17 @@ void run_builtin(t_parse_node *p, t_info *info)
 
 	ret = 0;
 	i = 0;
+	redirection(info, p);
 	while (p->lex[i] != CMD)
 		i++;
 	cmd = p->cmd[i];
+	/*
 	if (ft_strncmp(cmd, "env", 4) == 0)
 		ret = ft_env(info);
 	else if (ft_strncmp(cmd, "unset", 6) == 0)
 		ret = ft_unset(info, p, i);
 	else if (ft_strncmp(cmd, "export", 7) == 0)
 		ret = ft_export(info, p, i);
-	/*
 	if (ft_strncmp(cmd, "echo", 5) == 0)
 		ret = ft_echo(p, info);
 	else if (ft_strncmp(cmd, "cd", 3) == 0)
@@ -56,9 +57,9 @@ void	run_no_pipe(t_parse_node *p, t_info *info)
 	while (p->lex[i] != CMD)
 		i++;
 	cmd_path = find_cmd_path(info->path, p->cmd[i]);
-	printf("		access path : %s\n", cmd_path);
+//	printf("		access path : %s\n", cmd_path);
 	cmd_arr = make_cmd_arr(p, info);
-	ft_print_str_arr(cmd_arr);
+//	ft_print_str_arr(cmd_arr);
 	if(execve(cmd_path, cmd_arr, info->envp) == -1)
 		printf("command not found\n");
 	info->exit_stat = 42;
@@ -70,6 +71,7 @@ void	pipe_head_node(t_info *info, t_parse_node *p)
 {
 	int	i;
 	// 안쓰는 파이프는 닫고, 출력을 파이프로 보내는 작업
+	// 리다이렉션이 파이프처리 어디쯤에 들어가야하는거지
 	dup2(p->p_fd[1], 1);
 	close(p->p_fd[1]);
 	close(p->p_fd[0]);
@@ -89,6 +91,7 @@ void	pipe_middle_node(t_info *info, t_parse_node *p)
 {
 	int	i;
 	// 입력 출력을 파이프로
+	
 	dup2(p->prev->p_fd[0], 0);
 	dup2(p->p_fd[1], 1);
 	close(p->p_fd[0]);
@@ -184,6 +187,7 @@ void run_execute(t_info *info)
 
 	p = info->parse_list->head;
 	i = 0;
+	ft_isheredoc(p);
 	while (p->lex[i] != CMD)
 		i++;
 	if (ft_isbuiltin(p->cmd[i]) && !(p->next))
@@ -208,7 +212,8 @@ void ft_execute(t_info *info)
 		exit(0);
 	else if (pid == 0)
 	{
-		printf("in execute : fork\n");
+		//printf("in execute : fork\n");
+		pre_open(info);
 		run_execute(info);
 	}
 	else
