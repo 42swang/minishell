@@ -6,13 +6,13 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 00:17:29 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 07:31:35 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/14 17:28:14 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static t_env_node	*make_env_node(char *str)
+t_env_node	*make_env_node(char *str)
 {
 	t_env_node	*new;
 

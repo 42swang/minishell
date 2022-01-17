@@ -6,7 +6,7 @@
 #    By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 15:19:54 by swang             #+#    #+#              #
-#    Updated: 2022/01/11 22:09:28 by swang            ###   ########.fr        #
+#    Updated: 2022/01/14 17:42:40 by swang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,9 +46,9 @@ SRC_NAME = main.c\
 	print.c\
 	signal.c\
 	ft_heredoc.c\
+	ft_exit.c\
+	ft_export.c\
 	sin_error.c
-	
-#	ft_export.c#
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_NAME))
 

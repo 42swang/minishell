@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:44:24 by swang             #+#    #+#             */
-/*   Updated: 2022/01/13 16:02:40 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/17 16:26:58 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	find_heredoc_p(t_parse_node *p)
 		i++;
 	if (p->lex[i] == HEREDOC)
 	{
-		if ((stat("heredoc", &buf)) == 0) //stat함수 실패시 -1반환함
+		if ((stat("heredoc_tmp_42", &buf)) == 0) //stat함수 실패시 -1반환함
 		{
-			ft_putendl_fd("in stat", 2);
-			unlink("heredoc");
+			//ft_putendl_fd("in stat", 2);
+			unlink("heredoc_tmp_42");
 		}
 	}
 }
@@ -73,7 +73,7 @@ static void	make_cmd_lex(t_parse_node **p)
 		i++;
 	}
 	(*p)->lex[i] = ARG;
-	(*p)->cmd[i] = "heredoc";
+	(*p)->cmd[i] = "heredoc_tmp_42";
 	//printf("here_doc\n");
 }*/
 
@@ -85,7 +85,7 @@ void	here_document(t_parse_node *p, int idx)
 	int		fd;
 
 	//printf("here in\n");
-	fd = open("heredoc", O_RDWR | O_CREAT | O_TRUNC, 00700);
+	fd = open("heredoc_tmp_42", O_RDWR | O_CREAT | O_TRUNC, 00700);
 	i = idx;
 	while (p->lex[i] != HERE_DEL)
 		i++;
