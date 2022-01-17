@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 15:09:47 by swang             #+#    #+#             */
-/*   Updated: 2022/01/13 16:02:44 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/17 16:40:09 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	here_redirection(void)
 {
 	int fd;
 
-	fd = open("heredoc", O_RDONLY);
+	fd = open("heredoc_tmp_42", O_RDONLY);
 	dup2(fd, 0);
 	close(fd);
 }
@@ -149,7 +149,7 @@ void	redirection(t_info *info, t_parse_node *p)
 		}
 		i++;
 	}
-	ft_putendl_fd("in redirection", 2);
+	//ft_putendl_fd("in redirection", 2);
 	find_heredoc_p(p);
 }
 

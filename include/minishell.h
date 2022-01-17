@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2022/01/13 16:02:11 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/17 15:32:14 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef	struct	s_info
 	int		file_idx;
 	int		*file;
 	int		exit_stat;
+	int		*run_exit;
 	char	**envp;
 	char	**path;
 	char	**token;
@@ -184,4 +185,9 @@ int sin_error(char *line);
 void	here_document(t_parse_node *p, int idx);
 void	ft_isheredoc(t_info *info);
 void	find_heredoc_p(t_parse_node *p);
+int ft_exit(t_parse_node *p, t_info *info);
+int	ft_atoi_for_exit(char *str);
+t_env_node	*make_env_node(char *str);
+void run_builtin(t_parse_node *p, t_info *info);
+
 #endif
