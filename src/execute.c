@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:36:19 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 20:00:28 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/13 15:52:46 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,17 @@ void run_builtin(t_parse_node *p, t_info *info)
 
 	ret = 0;
 	i = 0;
+	redirection(info, p);
 	while (p->lex[i] != CMD)
 		i++;
 	cmd = p->cmd[i];
+	/*
 	if (ft_strncmp(cmd, "env", 4) == 0)
 		ret = ft_env(info);
 	else if (ft_strncmp(cmd, "unset", 6) == 0)
 		ret = ft_unset(info, p, i);
 	else if (ft_strncmp(cmd, "export", 7) == 0)
 		ret = ft_export(info, p, i);
-	/*
 	if (ft_strncmp(cmd, "echo", 5) == 0)
 		ret = ft_echo(p, info);
 	else if (ft_strncmp(cmd, "cd", 3) == 0)
@@ -53,12 +54,14 @@ void	run_no_pipe(t_parse_node *p, t_info *info)
 	i = 0;
 	
 	redirection(info, p);
-	while (p->lex[i] != CMD)
+	while (p->lex[i] && p->lex[i] != CMD)
 		i++;
+	if (p->lex[i] == 0 && p->lex[0] == HEREDOC)
+		exit(0); //히얼독일때 cmd없음, 종료값 어떻게 할거? -> bash 따라 0S
 	cmd_path = find_cmd_path(info->path, p->cmd[i]);
-	printf("		access path : %s\n", cmd_path);
+//	printf("		access path : %s\n", cmd_path);
 	cmd_arr = make_cmd_arr(p, info);
-	ft_print_str_arr(cmd_arr);
+//	ft_print_str_arr(cmd_arr);
 	if(execve(cmd_path, cmd_arr, info->envp) == -1)
 		printf("command not found\n");
 	info->exit_stat = 42;
@@ -70,6 +73,7 @@ void	pipe_head_node(t_info *info, t_parse_node *p)
 {
 	int	i;
 	// 안쓰는 파이프는 닫고, 출력을 파이프로 보내는 작업
+	// 리다이렉션이 파이프처리 어디쯤에 들어가야하는거지
 	dup2(p->p_fd[1], 1);
 	close(p->p_fd[1]);
 	close(p->p_fd[0]);
@@ -89,6 +93,7 @@ void	pipe_middle_node(t_info *info, t_parse_node *p)
 {
 	int	i;
 	// 입력 출력을 파이프로
+	
 	dup2(p->prev->p_fd[0], 0);
 	dup2(p->p_fd[1], 1);
 	close(p->p_fd[0]);
@@ -184,18 +189,30 @@ void run_execute(t_info *info)
 
 	p = info->parse_list->head;
 	i = 0;
-	while (p->lex[i] != CMD)
+	ft_isheredoc(info);
+	while (p->lex[i] && p->lex[i] != CMD)
 		i++;
+	// p->lex[i]가 존재할 때 조건을 빼먹어서 p->lex[i]의 값이 이상한 곳을 참조하고있었음
+	// CMD가 없을 때 임시로 i값을 0으로 두었더니 히얼독의 경우 실행파트에서 command not found가 뜬다.
+	if (p->lex[i] == 0)
+		i = 0;
 	if (ft_isbuiltin(p->cmd[i]) && !(p->next))
 	{
+		ft_putendl_fd("go builtin", 2);
 		run_builtin(p, info);
 	}
 	else
 	{
 		if (!(p->next))
+		{
+			ft_putendl_fd("go run_no_pipe", 2);
 			run_no_pipe(p, info);
+		}
 		else
+		{
+			ft_putendl_fd("go run_pipe", 2);
 			run_pipe(info, p);
+		}	
 	}
 }
 
@@ -208,7 +225,8 @@ void ft_execute(t_info *info)
 		exit(0);
 	else if (pid == 0)
 	{
-		printf("in execute : fork\n");
+		//printf("in execute : fork\n");
+		pre_open(info);
 		run_execute(info);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:48 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 20:01:52 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/11 20:52:56 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ int	main(int argc, char *argv[], char **envp)
 			printf("sin error2\n");
 		else
 			ft_execute(&info);
-		//parsing(line, &info);
-		//pre_open();
 		//delete_line(info, line);
 	}
 	//인포에있는거 초기화...
