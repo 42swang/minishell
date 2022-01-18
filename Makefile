@@ -6,7 +6,7 @@
 #    By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 15:19:54 by swang             #+#    #+#              #
-#    Updated: 2022/01/14 17:42:40 by swang            ###   ########.fr        #
+#    Updated: 2022/01/17 22:52:34 by swang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,8 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -g
 LFLAGS = -L./libft -lft
-LDFLAGS = -L/opt/homebrew/opt/readline/lib
-CPPFLAGS = -I/opt/homebrew/opt/readline/include
+LDFLAGS = -L /opt/homebrew/opt/readline/lib
+CPPFLAGS = -I /opt/homebrew/opt/readline/include/readline
 
 LIB_DIR = ./libft
 
@@ -47,6 +47,9 @@ SRC_NAME = main.c\
 	signal.c\
 	ft_heredoc.c\
 	ft_exit.c\
+	ft_cd.c\
+	ft_echo.c\
+	ft_pwd.c\
 	ft_export.c\
 	sin_error.c
 
