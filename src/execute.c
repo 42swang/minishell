@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:36:19 by swang             #+#    #+#             */
-/*   Updated: 2022/01/17 16:46:38 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/18 15:14:52 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,18 @@ void run_builtin(t_parse_node *p, t_info *info)
 
 	ret = 0;
 	i = 0;
+	ft_isheredoc(info);
 	redirection(info, p);
 	while (p->lex[i] != CMD)
 		i++;
 	cmd = p->cmd[i];
-	/*
 	if (ft_strncmp(cmd, "echo", 5) == 0)
 		ret = ft_echo(p, info);
 	else if (ft_strncmp(cmd, "cd", 3) == 0)
 		ret = ft_cd(p, info);
 	else if (ft_strncmp(cmd, "pwd", 4) == 0)
 		ret = ft_pwd(p, info);
-	*/
-	if (ft_strncmp(cmd, "exit", 5) == 0)
+	else if (ft_strncmp(cmd, "exit", 5) == 0)
 		ret = ft_exit(p, info);
 	else if (ft_strncmp(cmd, "env", 4) == 0)
 		ret = ft_env(info);
@@ -53,6 +52,7 @@ void	run_no_pipe(t_parse_node *p, t_info *info)
 	char **cmd_arr;
 	i = 0;
 	
+	ft_putendl_fd("in run no pipe", 2);
 	redirection(info, p);
 	while (p->lex[i] && p->lex[i] != CMD)
 		i++;
@@ -61,7 +61,7 @@ void	run_no_pipe(t_parse_node *p, t_info *info)
 	cmd_path = find_cmd_path(info->path, p->cmd[i]);
 //	printf("		access path : %s\n", cmd_path);
 	cmd_arr = make_cmd_arr(p, info);
-//	ft_print_str_arr(cmd_arr);
+	ft_print_str_arr(cmd_arr);
 	execve(cmd_path, cmd_arr, info->envp);
 	printf("command not found\n");
 	exit(127); //자식프로세스 종료
@@ -186,9 +186,15 @@ int run_execute(t_info *info)
 
 	p = info->parse_list->head;
 	i = 0;
+	printf("test3\n");
 	ft_isheredoc(info);
+	printf("test4\n");
 	while (p->lex[i] && p->lex[i] != CMD)
+	{
 		i++;
+		printf("%d\n", i);
+	}
+	printf("p->lex[%d] = %s", i, p->cmd[i]);
 	// p->lex[i]가 존재할 때 조건을 빼먹어서 p->lex[i]의 값이 이상한 곳을 참조하고있었음
 	// CMD가 없을 때 임시로 i값을 0으로 두었더니 히얼독의 경우 실행파트에서 command not found가 뜬다.
 	if (p->lex[i] == 0)
@@ -225,9 +231,11 @@ void ft_execute(t_info *info)
 		exit(0);
 	else if (pid == 0)
 	{
+		printf("test1\n");
 		pre_open(info);
+		printf("test2\n");
 		ret_child = run_execute(info);
-	//	exit (ret_child); // 여기서 무조건 종료시켜야함... 자식프로세스가 메인문까지 되돌아가고 있음...
+		exit (ret_child); // 여기서 무조건 종료시켜야함... 자식프로세스가 메인문까지 되돌아가고 있음...
 	}
 	else
 	{

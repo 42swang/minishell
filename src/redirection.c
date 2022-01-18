@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 15:09:47 by swang             #+#    #+#             */
-/*   Updated: 2022/01/17 16:40:09 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/18 15:11:03 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ static void	in_redirection(t_info *info, int idx)
 {
 	//< file grep
 	//grep은 0에서 입력을 가져오는데 file에서 가져오도록 해야함
+	//printf("	fd: %d\n", info->file[0]);
 	dup2(info->file[idx], 0);
 	close(info->file[idx]);
-	
 	//info->file_idx++; 리다이렉션에 들어올때마다 info->file_idx값이 변화함
 }
 
@@ -85,6 +85,7 @@ static void	here_redirection(void)
 	fd = open("heredoc_tmp_42", O_RDONLY);
 	dup2(fd, 0);
 	close(fd);
+
 }
 
 static void	out_redirection(t_info *info, int idx)
@@ -110,6 +111,8 @@ static void	out2_redirection(t_info *info, int idx)
 	dup2(info->file[idx], 1);
 	close(info->file[idx]);
 }
+
+
 
 void	redirection(t_info *info, t_parse_node *p)
 {
@@ -152,6 +155,12 @@ void	redirection(t_info *info, t_parse_node *p)
 	//ft_putendl_fd("in redirection", 2);
 	find_heredoc_p(p);
 }
+/*
+void	reset_redirection(t_info *info)
+{
+	
+
+}*/
 
 // t어쩌구 함수 터미널조작함수 -> ^C안나오게하려고
 // 터미널 정보를 저장했다가 사용하고 다시 돌려놓아야함

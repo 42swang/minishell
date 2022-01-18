@@ -6,19 +6,19 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2022/01/17 15:32:14 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/18 14:53:51 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdio.h>
 # include "../libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
 # include <unistd.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <signal.h>
 # include <sys/wait.h>
@@ -45,16 +45,19 @@
 # define CMD 555
 # define OPT 556
 # define ARG 557
+# define STDIN 0
+# define STDOUT 1
 
 extern int g_exit_status;
 
 typedef	struct	s_info
 {
+	int		stdin_fd;
+	int		stdout_fd;
 	int		*real;
 	int		file_idx;
 	int		*file;
 	int		exit_stat;
-	int		*run_exit;
 	char	**envp;
 	char	**path;
 	char	**token;
@@ -189,5 +192,10 @@ int ft_exit(t_parse_node *p, t_info *info);
 int	ft_atoi_for_exit(char *str);
 t_env_node	*make_env_node(char *str);
 void run_builtin(t_parse_node *p, t_info *info);
+
+/*bilt_in*/
+int ft_pwd(t_parse_node *p, t_info *info);
+int ft_echo(t_parse_node *p, t_info *info);
+int				ft_cd(t_parse_node *p, t_info *info);
 
 #endif

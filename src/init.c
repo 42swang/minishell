@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 22:08:18 by swang             #+#    #+#             */
-/*   Updated: 2022/01/13 16:47:37 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/18 14:55:05 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ void	ft_free(char **str)
 
 void	init_info(t_info *info)
 {
+	info->stdin_fd = dup(STDIN);
+	info->stdout_fd = dup(STDOUT);
 	info->exit_stat = 0;
-	info->run_exit = (int *)ft_calloc(1, sizeof(int));
-
+	
 	info->file_idx = 0;
 	info->real = 0;
 	info->file = 0;
