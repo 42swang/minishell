@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 01:58:36 by swang             #+#    #+#             */
-/*   Updated: 2022/01/19 13:21:59 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/19 13:31:07 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,8 @@ int	check_equal(char *str)
 	int	i;
 
 	i = 0;
+	if (str == 0)
+		return (0);
 	while (str[i])
 	{
 		if (str[i] == '=')
@@ -207,10 +209,11 @@ int	ft_export(t_info *info, t_parse_node *p, int i)
 	char **tmp;
 
 	env = p->cmd[i + 1];
-	if (env == 0 || (env && check_equal(env) == 0))
+	if (check_equal(env) == 0)
 	{
 		print_declare(info->env_list);
-		exit(0);
+		info->exit_stat = 0;
+		return (0);
 	}
 	idx = check_equal(env);
 	tmp = (char **)ft_calloc(3, sizeof(char *));
