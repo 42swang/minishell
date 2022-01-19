@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 01:58:36 by swang             #+#    #+#             */
-/*   Updated: 2022/01/17 16:22:27 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/19 13:21:59 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static int	export_env(char *env, t_env_list *list, int sort)
 {
 	t_env_node *new;
-	
+
 	new = make_new_env(env);
 	return (0);
 }
@@ -139,7 +139,7 @@ void	modi_env_list(t_info *info, char **tmp)
 {
 	t_env_node *p;
 	char *value;
-	
+
 	p = info->env_list->curr;
 	value = tmp[1];
 	free(p->env_arr[1]);
@@ -171,16 +171,52 @@ int	ft_export_exception(char **tmp)
 	return (0);
 }
 
+void	print_declare(t_env_list *list)
+{
+	t_env_node *p;
+
+	p = list->head;
+	while (p)
+	{
+		printf("declare -x");
+		printf("%s", p->env_arr[0]);
+		printf("=");
+		printf("\"%s\"\n", p->env_arr[1]);
+		p = p->next;
+	}
+}
+
+int	check_equal(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (i);
+		i++;
+	}
+	return (0);
+}
 
 int	ft_export(t_info *info, t_parse_node *p, int i)
 {
+	int	idx;
 	char *env;
 	char **tmp;
 
 	env = p->cmd[i + 1];
-//	printf("in export, [%s]\n", p->cmd[i + 1]);
-	tmp = ft_split(env, '=');
-	if (ft_export_exception(tmp) == -1)
+	if (env == 0 || (env && check_equal(env) == 0))
+	{
+		print_declare(info->env_list);
+		exit(0);
+	}
+	idx = check_equal(env);
+	tmp = (char **)ft_calloc(3, sizeof(char *));
+	tmp[0] = ft_substr(env, 0, idx);
+	tmp[1] = ft_substr(env + idx + 1, 0, ft_strlen(env + idx + 1));
+	if (ft_export_exception(tmp) == 0)
 		return (-1);
 	if (check_same(tmp[0], info->env_list))
 		modi_env_list(info, tmp);
