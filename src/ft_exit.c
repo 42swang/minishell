@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 20:47:54 by swang             #+#    #+#             */
-/*   Updated: 2022/01/17 16:38:44 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/19 16:58:25 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,26 @@ int	ft_atoi_for_exit(char *str)
 	int			i;
 	long long	num;
 	int minus;
+	int n;
 
 	i = 0;
 	num = 0;
 	minus = 1;
-	while (str[i] == '-' || str[i] == '+')
+	n = 0;
+	if (str[0] == '-' || str[0] == '+')
 	{
-		if (str[i] == '-')
+		if (str[0] == '-')
 			minus *= -1;
 		i++;
 	}
 	while (ft_isdigit(str[i]))
+	{
 		num = (10 * num) + (str[i++] - '0');
+		n++;
+	}
 	if ((str[i]) && !ft_isdigit(str[i]))
+		return (-1);
+	if (n > 19)
 		return (-1);
 	if (minus < 0)
 	{
@@ -62,7 +69,7 @@ int ft_exit(t_parse_node *p, t_info *info)
 		ret = ft_atoi_for_exit(p->cmd[1]);
 		if (ret == -1)
 		{
-			//인자가 들어왔는데 문자임
+			//인자가 들어왔는데 문자거나 long long 범위 밖
 			ft_putendl_fd("exit", 1);
 			ft_putendl_fd("exit: numeric argument required", 1);
 			exit(255);

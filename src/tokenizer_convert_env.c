@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 21:31:17 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 05:52:37 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/19 16:27:09 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static char	*change_env_var(char *str2, int *idx, t_info *info)
 int	count_arr(char **arr)
 {
 	int	i;
-	
+
 	i = 0;
 	while (arr[i])
 		i++;
@@ -120,7 +120,9 @@ char *convert_str(t_info *info, char *str)
 			{
 				//	치환/제거하고 변경된 i를 받을 수 있도록, 한번에 하나의 환경변수만 처리
 				s1 = ft_substr(tmp, 0 , i);
+				//printf("	s1 = [%s]\n", s1);
 				s2 = convert_str2(tmp + i, &i, info);// 얘는 치환 + 그 뒤에있는거
+				//printf("	s2 = [%s]\n", s2);
 				ft_free(&tmp);
 				tmp = ft_strjoin(s1, s2);
 				ft_free(&s1);

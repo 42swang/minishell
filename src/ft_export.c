@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 01:58:36 by swang             #+#    #+#             */
-/*   Updated: 2022/01/19 13:31:07 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/19 14:34:06 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,33 @@ static void make_new_list(t_env_list **list, int sort, t_env_node **node)
 	}
 }
 
+t_env_node	*make_env_node2(char **tmp)
+{
+	t_env_node	*new;
 
-static void	make_new(t_info *info, char *env)
+	new = (t_env_node *)ft_calloc(1, sizeof(t_env_node));
+	if (new == 0)
+	{
+		ft_putendl_fd("Failed to make env node", 2);
+		exit(0); // 말록실패
+	}
+	new->env_arr = (char **)ft_calloc(3, sizeof(char *));
+	new->env_arr[0] = tmp[0];
+	new->env_arr[1] = tmp[1];
+	if (new->env_arr == 0)
+	{
+		ft_putendl_fd("Failed to make env_arr", 2);
+		exit(0); // 말록실패
+	}
+	return (new);
+}
+
+static void	make_new(t_info *info, char **tmp)
 {
 	t_env_node	*new_node;
 	int			sort;
 
-	new_node = make_env_node(env);
+	new_node = make_env_node2(tmp);
 	sort = find_sort(info->env_list, new_node->env_arr[0]);
 //	printf("	sort = %d\n", sort);
 	make_new_list(&(info->env_list), sort, &new_node);
@@ -178,7 +198,7 @@ void	print_declare(t_env_list *list)
 	p = list->head;
 	while (p)
 	{
-		printf("declare -x");
+		printf("declare -x ");
 		printf("%s", p->env_arr[0]);
 		printf("=");
 		printf("\"%s\"\n", p->env_arr[1]);
@@ -219,11 +239,21 @@ int	ft_export(t_info *info, t_parse_node *p, int i)
 	tmp = (char **)ft_calloc(3, sizeof(char *));
 	tmp[0] = ft_substr(env, 0, idx);
 	tmp[1] = ft_substr(env + idx + 1, 0, ft_strlen(env + idx + 1));
-	if (ft_export_exception(tmp) == 0)
+	printf("%s, %s\n", tmp[0], tmp[1]);
+	if (ft_export_exception(tmp) == -1)
+	{
+		printf("exception\n");
 		return (-1);
+	}
 	if (check_same(tmp[0], info->env_list))
+	{
+		printf("same\n");
 		modi_env_list(info, tmp);
+	}
 	else
-		make_new(info, env);
+	{
+		printf("make new\n");
+		make_new(info, tmp);
+	}
 	return (1); // 반환값...
 }

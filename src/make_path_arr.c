@@ -6,29 +6,26 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 22:08:02 by swang             #+#    #+#             */
-/*   Updated: 2021/12/03 16:43:15 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/19 16:30:24 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char	*get_path_str(char *envp[])
+static char	*get_path_str(t_env_node *ptr)
 {
-	int		i;
 	char	*path_str;
 
-	i = 0;
 	path_str = 0;
-	while (envp[i])
+	while (ptr)
 	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		if (ft_strncmp(ptr->env_arr[0], "PATH", 5) == 0)
 			break ;
-			//환경변수에서 PATH=를 찾았다는 뜻
-		i++;
+		ptr = ptr->next;
 	}
-	if (envp[i] == NULL)
+	if (ptr == NULL)
 		return (NULL);
-	path_str = ft_strdup(envp[i] + 5);
+	path_str = ft_strdup(ptr->env_arr[1]);
 	return (path_str);
 }
 
@@ -50,12 +47,19 @@ static char	**get_path_arr(char	**temp_arr)
 	return (temp_arr);
 }
 
-char	**get_path(char	*envp[])
+char	**get_path(t_env_list *list)
 {
 	char	*path_str;
 	char	**temp_path_arr;
+/*
+1. get_path_str = env_list에서 PATH를 찾아 저장하는 함수
+예) PATH=        ":bin/sr:asdjf/asdf"
 
-	path_str = get_path_str(envp);
+2. temp_path_arr = :로 스플릿해서 주소만 저장
+
+3. get_path_arr => "bin/src/arg" + "/"
+*/
+	path_str = get_path_str(list->head);
 	if (path_str == NULL)
 		return (NULL);
 	temp_path_arr = ft_split(path_str, ':');

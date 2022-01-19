@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 01:02:49 by swang             #+#    #+#             */
-/*   Updated: 2022/01/11 19:47:31 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/19 17:15:03 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,23 @@ static int	unset_env(char *env, t_env_list *list)
 			break ;
 		p = p->next;
 	}
-	p->prev->next = p->next;
-	if (p->next)
-		p->next->prev = p->prev;
+	if (p == NULL)
+		return (0);
+	if (p == list->head)
+	{
+		list->head = p->next;
+		list->head->prev = 0;
+	}
+	else if (p == list->tail)
+	{
+		list->tail = p->prev;
+		list->tail->next = 0;
+	}
+	else
+	{
+		p->prev->next = p->next;
+		p->next->prev= p->prev;
+	}
 	free(p->env_arr[0]);
 	free(p->env_arr[1]);
 	free(p);
@@ -37,7 +51,7 @@ int	ft_unset(t_info *info, t_parse_node *p, int i)
 	//환경변수 제거
 	char	*env;
 	int	ret;
-	
+
 	env = p->cmd[i + 1];
 	ret = unset_env(env, info->env_list);
 	return (ret);

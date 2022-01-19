@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:36:19 by swang             #+#    #+#             */
-/*   Updated: 2022/01/17 16:46:38 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/19 17:03:55 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,24 @@ void run_builtin(t_parse_node *p, t_info *info)
 	char *cmd;
 	int	ret;
 	int i;
+	int in_fd;
+	int	out_fd;
 
 	ret = 0;
 	i = 0;
+	in_fd = dup(0);
+	out_fd = dup(1);
 	redirection(info, p);
 	while (p->lex[i] != CMD)
 		i++;
 	cmd = p->cmd[i];
-	/*
 	if (ft_strncmp(cmd, "echo", 5) == 0)
 		ret = ft_echo(p, info);
 	else if (ft_strncmp(cmd, "cd", 3) == 0)
 		ret = ft_cd(p, info);
 	else if (ft_strncmp(cmd, "pwd", 4) == 0)
 		ret = ft_pwd(p, info);
-	*/
-	if (ft_strncmp(cmd, "exit", 5) == 0)
+	else if (ft_strncmp(cmd, "exit", 5) == 0)
 		ret = ft_exit(p, info);
 	else if (ft_strncmp(cmd, "env", 4) == 0)
 		ret = ft_env(info);
@@ -40,7 +42,10 @@ void run_builtin(t_parse_node *p, t_info *info)
 		ret = ft_unset(info, p, i);
 	else if (ft_strncmp(cmd, "export", 7) == 0)
 		ret = ft_export(info, p, i);
-	g_exit_status = ret;
+	dup2(in_fd, 0);
+	dup2(out_fd, 1);
+	info->exit_stat = ret;
+//	g_exit_status = ret;
 }
 
 void	run_no_pipe(t_parse_node *p, t_info *info)
@@ -52,16 +57,15 @@ void	run_no_pipe(t_parse_node *p, t_info *info)
 	char *cmd_path;
 	char **cmd_arr;
 	i = 0;
-	
+
 	redirection(info, p);
 	while (p->lex[i] && p->lex[i] != CMD)
 		i++;
 	if (p->lex[i] == 0 && p->lex[0] == HEREDOC)
 		exit(0); //히얼독일때 cmd없음, 종료값 어떻게 할거? -> bash 따라 0S
+	info->path = get_path(info->env_list);
 	cmd_path = find_cmd_path(info->path, p->cmd[i]);
-//	printf("		access path : %s\n", cmd_path);
 	cmd_arr = make_cmd_arr(p, info);
-//	ft_print_str_arr(cmd_arr);
 	execve(cmd_path, cmd_arr, info->envp);
 	printf("command not found\n");
 	exit(127); //자식프로세스 종료
@@ -91,7 +95,7 @@ void	pipe_middle_node(t_info *info, t_parse_node *p)
 {
 	int	i;
 	// 입력 출력을 파이프로
-	
+
 	dup2(p->prev->p_fd[0], 0);
 	dup2(p->p_fd[1], 1);
 	close(p->p_fd[0]);
@@ -136,7 +140,7 @@ void	run_pipe(t_info *info, t_parse_node *p)
 	t_parse_node *tmp;
 
 	i = 0;
-	tmp = info->parse_list->head; 
+	tmp = info->parse_list->head;
 	while (tmp)
 	{
 		i++;
@@ -202,14 +206,13 @@ int run_execute(t_info *info)
 	{
 		if (!(p->next))
 		{
-	//		ft_putendl_fd("go run_no_pipe", 2);
 			run_no_pipe(p, info);
 		}
 		else
 		{
 		//	ft_putendl_fd("go run_pipe", 2);
 			run_pipe(info, p);
-		}	
+		}
 	}
 	return (info->exit_stat);
 }
@@ -232,8 +235,9 @@ void ft_execute(t_info *info)
 	else
 	{
 		wait(&status);
-		printf("			return1(%d), return2(%d)\n", WIFEXITED(status), WEXITSTATUS(status));
-		printf("			exit(%d)\n", status >> 8); //자식프로세스에서 exit()한 값
+		info->exit_stat = WEXITSTATUS(status);
+	//	printf("			return1(%d), return2(%d)\n", WIFEXITED(status), WEXITSTATUS(status));
+		//printf("			exit(%d)\n", status >> 8); //자식프로세스에서 exit()한 값
 		//여기서 어떤 값이냐에 따라서 개포쉘을 종료시킬 수 있을까?
 	}
 }

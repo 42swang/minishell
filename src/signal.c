@@ -8,6 +8,9 @@ void handle_signal(int signo)
 	pid = waitpid(-1, &status, WNOHANG);
 	if (signo == SIGINT)
 	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 		if (pid == -1)
 		{
 			write(1, "\nGAEPOSHELL$ ", 13);

@@ -6,6 +6,8 @@ char *find_cmd_path(char **arr, char *cmd)
 	char *path;
 
 	path = 0;
+	if (arr == NULL)
+		return (0);
 	while (arr[i])
 	{
 		// "bin/run/hello/ + world"
