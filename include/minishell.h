@@ -6,19 +6,19 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2022/01/17 15:32:14 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/19 19:16:45 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdio.h>
 # include "../libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
 # include <unistd.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <signal.h>
 # include <sys/wait.h>
@@ -26,7 +26,7 @@
 
 # define SQ 32
 # define DQ 64
-// 128,64,32,16 8,4,2,1 
+// 128,64,32,16 8,4,2,1
 
 # define PIPE 100
 
@@ -99,7 +99,7 @@ typedef struct	s_parse_node
 	int		index;
 	int		p_fd[2]; //초기화만?
 	char	**cmd; //{cmd, test, \0} -> cat > test 이런문장일때
-	int		*lex; //{CMD, IN_RE,  0} -> 렉서 
+	int		*lex; //{CMD, IN_RE,  0} -> 렉서
 	struct	s_parse_node	*prev;
 	struct	s_parse_node	*next;
 }	t_parse_node;
@@ -111,14 +111,14 @@ typedef struct	s_parse_list
 	t_parse_node	*curr;
 }	t_parse_list;
 
-/* init */ 
+/* init */
 void	init_info(t_info *info);
 void	free_2d(char **arr);
 void	ft_free(char **str);
 int	count_arr(char **arr);
 
 int		check_sign(char *str, t_info *info);
-char	**get_path(char	*envp[]);
+char	**get_path(t_env_list *list);
 t_env_list	*make_env_list(char **envp);
 
 /* tokenizser */
@@ -189,5 +189,8 @@ int ft_exit(t_parse_node *p, t_info *info);
 int	ft_atoi_for_exit(char *str);
 t_env_node	*make_env_node(char *str);
 void run_builtin(t_parse_node *p, t_info *info);
+int ft_echo(t_parse_node *p, t_info *info);
+int ft_pwd(t_parse_node *p, t_info *info);
+int				ft_cd(t_parse_node *p, t_info *info);
 
 #endif

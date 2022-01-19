@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:48 by swang             #+#    #+#             */
-/*   Updated: 2022/01/19 17:10:41 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/19 19:58:44 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	main(int argc, char *argv[], char **envp)
 			}
 		}
 	//	printf("		exit_stat = [%d]\n", info.exit_stat);
-			//delete_line(info, line);
+		delete_line(&info, line);
 	}
 	//인포에있는거 초기화...
 	//프로그램 종료 전 실행해야하는 것들

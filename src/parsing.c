@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 00:51:11 by swang             #+#    #+#             */
-/*   Updated: 2022/01/19 16:31:05 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/19 20:21:02 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ void	parsing(char *line, t_info *info)
 int	parsing(char *line, t_info *info)
 {
 	info->token = run_tokenizer(line, info);
-	//ft_print_str_arr(info->token);
+//	system("leaks minishell");
 	info->lex_list = run_lexer(info);
+	system("leaks minishell");
 	info->parse_list = run_parser(info);
-	//ft_print_parse_list(info);
+	system("leaks minishell");
 	if (sin_lex(info->lex_list))
 		return (-1);
 	return (0);

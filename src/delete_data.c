@@ -6,49 +6,99 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:00:42 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 10:18:42 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/19 20:19:47 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+void	free_parse(t_parse_list *list)
+{
+	t_parse_node *p;
+
+	p = list->head;
+	list->curr = p;
+	while (p)
+	{
+		list->curr = p->next;
+		free(p->cmd);
+		printf("p->cmd\n");
+		free(p->lex);
+		printf("p->lex\n");
+		free(p);
+		printf("p\n");
+		p = list->curr;
+	}
+}
+
+void	free_lex(t_lex_list *list)
+{
+	t_lex_node *p;
+
+	p = list->head;
+	list->curr = p;
+	while (p)
+	{
+		list->curr = p->next;
+		free(p);
+		p = list->curr;
+	}
+}
+
+void	free_list(t_info *info)
+{
+	if (info->lex_list != 0)
+	{
+		printf("lex\n");
+		free_lex(info->lex_list);
+	}
+	if (info->parse_list != 0)
+	{
+		printf("parse\n");
+		free_parse(info->parse_list);
+	}
+}
+
 void	delete_line(t_info *info, char *line)
 {
 	free(line);
 	line = 0;
-	if (info->token)
-	{
-		//printf("token\n");
-		ft_free(info->token);
-		info->token = 0;
-	}
+	//dup2(info->stdin_fd, STDIN);
+	//dup2(info->stdout_fd, STDOUT);
 	if (info->real)
 	{
+		printf("real\n");
 		free(info->real);
 		info->real = 0;
 	}
 	if (info->file)
 	{
+		printf("file\n");
 		free(info->file);
 		info->file = 0;
 	}
 	if (info->path)
 	{
-		//printf("path\n");
-		ft_free(info->path);
+		printf("path\n");
+		free_2d(info->path);
 		info->path = 0;
+	}
+	if (info->token)
+	{
+		printf("token\n");
+		free_2d(info->token);
+		info->token = 0;
 	}
 	if (info->cmd_arr != 0)
 	{
-		//printf("cmd_arr\n");
-		ft_free(info->cmd_arr);
+		printf("cmd_arr\n");
+		free_2d(info->cmd_arr);
 		info->cmd_arr = 0;
 	}
-//	info->lex_list = 0;
-//	info->parse_list = 0;
-	info->file_idx = 0;
+	free_list(info);
 	info->quote = 0;
 }
+
 	/*
 		line과 관련된 애들 정보 지우기 (새 라인을 받아올거니까)
 		2. 토큰 배열 초기화
