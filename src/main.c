@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:48 by swang             #+#    #+#             */
-/*   Updated: 2022/01/20 17:53:03 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/20 20:57:58 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 
 
 #include "../include/minishell.h"
-
-int g_exit_status;
 
 int	check_no_pipe_builtin(t_info *info)
 {
@@ -44,7 +42,13 @@ int	main(int argc, char *argv[], char **envp)
 	char			*line;
 	t_info			info;
 
-	g_exit_status = 0;
+	glovar.g_exit_status = 0;
+	tcgetattr(0, &(glovar.old_term));
+	tcgetattr(0, &(glovar.new_term));
+	glovar.new_term.c_lflag &= ECHO;		// 입력 시 터미널에서 보이지 않기
+	glovar.new_term.c_cc[VMIN] = 1;			// 최소 입력 버퍼 크기
+	glovar.new_term.c_cc[VTIME] = 0;		// 버퍼비우는시간
+	tcsetattr(0, TCSANOW, &(glovar.new_term));
 	sig_init();
 	use_arg(argc, argv);
 	init_info(&info, envp);
