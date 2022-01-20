@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2022/01/19 19:16:45 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/20 14:42:38 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,53 +26,47 @@
 
 # define SQ 32
 # define DQ 64
-// 128,64,32,16 8,4,2,1
-
 # define PIPE 100
-
 # define IN_RE 200
 # define IN_FILE 201
-
 # define HEREDOC 300
 # define HERE_DEL 301
-
 # define OUT_RE 400
 # define OUT_FI 401
-
 # define OUT_RE2 500
 # define OUT_FI2 501
-
 # define CMD 555
 # define OPT 556
 # define ARG 557
 
-extern int g_exit_status;
+extern int	g_exit_status;
 
 typedef	struct	s_info
 {
-	int		*real;
-	int		file_idx;
-	int		*file;
-	int		exit_stat;
-	int		*run_exit;
-	char	**envp;
-	char	**path;
-	char	**token;
-	char	**cmd_arr;
-	unsigned char	quote;
+	int						*real;
+	int						file_idx;
+	int						*file;
+	int						exit_stat;
+	char					**envp;
+	char					**path;
+	char					**token;
+	char					**cmd_arr;
+	char					*old_pwd;
+	char					*home;
+	unsigned char			quote;
 	struct s_env_list		*env_list;
-	struct s_lex_list	*lex_list;
+	struct s_lex_list		*lex_list;
 	struct s_parse_list		*parse_list;
 }	t_info;
 
-typedef struct s_env_node
+typedef struct	s_env_node
 {
 	char				**env_arr;
 	struct s_env_node	*prev;
 	struct s_env_node	*next;
 }	t_env_node;
 
-typedef struct s_env_list
+typedef struct	s_env_list
 {
 	struct s_env_node	*head;
 	struct s_env_node	*tail;
@@ -81,8 +75,8 @@ typedef struct s_env_list
 
 typedef struct	s_lex_node
 {
-	int		type;
-	char	*value;
+	int					type;
+	char				*value;
 	struct s_lex_node	*prev;
 	struct s_lex_node	*next;
 }	t_lex_node;
@@ -97,9 +91,9 @@ typedef struct	s_lex_list
 typedef struct	s_parse_node
 {
 	int		index;
-	int		p_fd[2]; //초기화만?
-	char	**cmd; //{cmd, test, \0} -> cat > test 이런문장일때
-	int		*lex; //{CMD, IN_RE,  0} -> 렉서
+	int		p_fd[2];
+	char	**cmd;
+	int		*lex;
 	struct	s_parse_node	*prev;
 	struct	s_parse_node	*next;
 }	t_parse_node;
@@ -111,10 +105,22 @@ typedef struct	s_parse_list
 	t_parse_node	*curr;
 }	t_parse_list;
 
-/* init */
-void	init_info(t_info *info);
-void	free_2d(char **arr);
+
+/* free */
+void	free_info(t_info *info);
+void	free_list(t_info *info);
 void	ft_free(char **str);
+void	free_2d(char **arr);
+void	free_line(t_info *info, char *line);
+
+/* init */
+void	init_info(t_info *info, char **envp);
+void	sig_init(void);
+void	use_arg(int ac, char **av);
+
+
+
+
 int	count_arr(char **arr);
 
 int		check_sign(char *str, t_info *info);
@@ -180,8 +186,6 @@ void	ft_print_str_arr(char **arr);
 void	ft_print_lex_list(t_info *info);
 
 void handle_signal(int signo);
-int sin_lex(t_lex_list *lex);
-int sin_error(char *line);
 void	here_document(t_parse_node *p, int idx);
 void	ft_isheredoc(t_info *info);
 void	find_heredoc_p(t_parse_node *p);
@@ -192,5 +196,8 @@ void run_builtin(t_parse_node *p, t_info *info);
 int ft_echo(t_parse_node *p, t_info *info);
 int ft_pwd(t_parse_node *p, t_info *info);
 int				ft_cd(t_parse_node *p, t_info *info);
+char	*get_env_path(t_env_node *env, const char *var);
+void	free_info(t_info *info);
+int	check_no_pipe_builtin(t_info *info);
 
 #endif

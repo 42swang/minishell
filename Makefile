@@ -6,7 +6,7 @@
 #    By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 15:19:54 by swang             #+#    #+#              #
-#    Updated: 2022/01/19 19:33:11 by swang            ###   ########.fr        #
+#    Updated: 2022/01/20 14:43:42 by swang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,9 @@ MAKE = make
 
 SRC_DIR = src/
 
-SRC_NAME = main.c\
+SRC_NAME = free_line.c\
+	free_list.c\
+	main.c\
 	init.c\
 	make_env_list.c\
 	tokenizer_divide.c\
@@ -38,7 +40,6 @@ SRC_NAME = main.c\
 	run_parser.c\
 	make_path_arr.c\
 	make_cmd_arr.c\
-	delete_data.c\
 	execute.c\
 	find_cmd_path.c\
 	ft_env.c\
