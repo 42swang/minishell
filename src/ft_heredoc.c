@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:44:24 by swang             #+#    #+#             */
-/*   Updated: 2022/01/17 16:26:58 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/20 19:56:50 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,12 @@ void	here_document(t_parse_node *p, int idx)
 	while(42)
 	{
 		line = readline("> ");
+		if (line == NULL)
+		{
+			ft_putstr_fd("\x1b[1A", 1);
+			ft_putstr_fd("\033[2C", 1);
+			break ;
+		}
 		if (ft_strncmp(end, line, ft_strlen(line) + 1) == 0)
 			break ;
 		ft_putendl_fd(line, fd);
