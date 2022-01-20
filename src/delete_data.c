@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:00:42 by swang             #+#    #+#             */
-/*   Updated: 2022/01/19 20:19:47 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/20 13:33:29 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,15 @@ void	free_list(t_info *info)
 	{
 		printf("lex\n");
 		free_lex(info->lex_list);
+		free(info->lex_list);
+		info->lex_list = 0;
 	}
 	if (info->parse_list != 0)
 	{
 		printf("parse\n");
 		free_parse(info->parse_list);
+		free(info->parse_list);
+		info->parse_list = 0;
 	}
 }
 
