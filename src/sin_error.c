@@ -32,7 +32,7 @@ int sin_error(char *line)
 	x = 0;
 	i = 0;
 	y = 0;
-	while (line[i])
+	while (line && line[i])
 	{
 		if (line[i] == '\'')
 		{	x++;
@@ -85,7 +85,7 @@ int sin_error(char *line)
 //' "문제만 해결되면 토큰화에는 문제 없을것으로 판단 남은 신에러는 밑으로
 
 //https://epicarts.tistory.com/163 참조 만들다보니 개간단하게 해버림..?
-//str: [ls, -al, <, a, |, grep, "", NULL] 
+//str: [ls, -al, <, a, |, grep, "", NULL]
 //type: [WORD, WORD, REDIRECT, WORD, PIPE, WORD, WORD, NULL]
 //lex를 word redirect pie로 나눔, 다만 ls나 grep 부분을 word에 포함하지 않고 다르게 나눈다면 다시 수정필요.. 사실 몇분컷이니 의미변동은 마음대로 해도 ㄱㅊ
 // 렉서 처러가 끝난후에 |와서< << > >> 가 맨앞이나 뒤에오는지, | <들이 연속으로 나오는지 그외 문법은 딱히? 없는듯? 싶어서 새로 생각나면 바로 추가
