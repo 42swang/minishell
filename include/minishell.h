@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2022/01/20 14:42:38 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/20 20:12:54 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <termios.h>
 
 # define SQ 32
 # define DQ 64
@@ -39,7 +40,14 @@
 # define OPT 556
 # define ARG 557
 
-extern int	g_exit_status;
+typedef struct	s_glovar
+{
+	int	g_exit_status;
+	struct termios	old_term;
+	struct termios	new_term;
+}	t_glovar;
+
+t_glovar	glovar;
 
 typedef	struct	s_info
 {
