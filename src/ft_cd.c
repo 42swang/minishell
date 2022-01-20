@@ -73,18 +73,17 @@ char		*get_env_path(t_env_node *env, const char *var)
 static int		update_oldpwd(t_env_node *env, t_info *info)
 {
 	char	cwd[999];
+	char	*tmp;
 
+	tmp = 0;
 	if (getcwd(cwd, 999) == NULL)
 		return (1);
 	is_in_env(env, cwd);
-	/*
-	if (is_in_env(env, cwd) == 0)
-	{
-		printf("check		7\n");
-		env_add(cwd, env);
-		printf("check		8\n");
-	}*/
+	tmp = info->old_pwd;
 	info->old_pwd = ft_strdup(cwd);
+	if (tmp)
+		free(tmp);
+	tmp = 0;
 	return (0);
 }
 
@@ -119,9 +118,9 @@ static int		go_to_path(int option, t_env_node *env, t_parse_node *p, t_info *inf
 	return (ret);
 }
 
-int				ft_cd(t_parse_node *p, t_info *info)
+int	ft_cd(t_parse_node *p, t_info *info)
 {
-	int		cd_ret;
+	int	cd_ret;
 
 	if (!p->cmd[1])
 		return (go_to_path(0, info->env_list->head, p, info));

@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 01:02:49 by swang             #+#    #+#             */
-/*   Updated: 2022/01/19 17:15:03 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/20 16:47:46 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static int	unset_env(char *env, t_env_list *list)
 	}
 	free(p->env_arr[0]);
 	free(p->env_arr[1]);
+	free(p->env_arr);
 	free(p);
 	return (0);
 }
