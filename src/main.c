@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:48 by swang             #+#    #+#             */
-/*   Updated: 2022/01/19 19:58:44 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/20 14:12:01 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	main(int argc, char *argv[], char **envp)
 	(void)argv; //unused 어쩌고 에러땜에 추가
 	init_info(&info);
 	info.env_list = make_env_list(envp); // PWD:
+	info.old_pwd = get_env_path(info.env_list->head, "OLDPWD");
+	info.home = get_env_path(info.env_list->head, "HOME");
 	while(42)
 	{
 		line = readline("GAEPOSHELL$ ");
@@ -81,8 +83,8 @@ int	main(int argc, char *argv[], char **envp)
 	//	printf("		exit_stat = [%d]\n", info.exit_stat);
 		delete_line(&info, line);
 	}
-	//인포에있는거 초기화...
-	//프로그램 종료 전 실행해야하는 것들
+	free_info(&info);
+	while (1)
+		system("leaks minishell");
 	return (0);
 }
-

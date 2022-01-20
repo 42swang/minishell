@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 22:08:18 by swang             #+#    #+#             */
-/*   Updated: 2022/01/19 16:07:02 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/20 13:54:05 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	ft_free(char **str)
 void	init_info(t_info *info)
 {
 	info->exit_stat = 0;
-	info->run_exit = (int *)ft_calloc(1, sizeof(int));
 
 	info->file_idx = 0;
 	info->real = 0;
