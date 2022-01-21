@@ -4,10 +4,13 @@ void handle_signal(int signo)
 {
 	pid_t	pid;
 	int		status;
+	//struct stat	buf;
 
 	pid = waitpid(-1, &status, WNOHANG);
 	if (signo == SIGINT)
 	{
+		//if ((stat("heredoc_tmp_42", &buf)) == 0) //stat함수 실패시 -1반환함
+		//	unlink("heredoc_tmp_42");
 		if (pid == -1)
 		{
 			rl_on_new_line();
@@ -31,12 +34,3 @@ void handle_signal(int signo)
 		}
 	}
 }
-
-/*
-void sig_init()
-{
-	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, handle_signal);
-}*/
-// main에 sig_init(); 추가
-// 헤더파일에 # include <signal.h> 추가

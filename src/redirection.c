@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 15:09:47 by swang             #+#    #+#             */
-/*   Updated: 2022/01/17 16:40:09 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/21 14:01:36 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	pre_open(t_info *info)
 			i++;
 		ptr = ptr->next;
 	}
-	info->file = (int *)ft_calloc(i + 1, sizeof(int));	
+	info->file = (int *)ft_calloc(i + 1, sizeof(int));
 	i = 0;
 	ptr = info->lex_list->head;
 	while (ptr)
@@ -65,7 +65,7 @@ void	pre_open(t_info *info)
 int	is_heredoc(t_parse_node *p)
 {
 	while (p->cmd != HEREDOC)
-	
+
 }*/
 
 static void	in_redirection(t_info *info, int idx)
@@ -74,7 +74,7 @@ static void	in_redirection(t_info *info, int idx)
 	//grep은 0에서 입력을 가져오는데 file에서 가져오도록 해야함
 	dup2(info->file[idx], 0);
 	close(info->file[idx]);
-	
+
 	//info->file_idx++; 리다이렉션에 들어올때마다 info->file_idx값이 변화함
 }
 
@@ -101,7 +101,7 @@ static void	out_redirection(t_info *info, int idx)
 static void	out2_redirection(t_info *info, int idx)
 {
 	//cat > file : 입력상태유지, 개행으로 전달된 내용이 파일에 저장됨. ^D (^C?)
-	
+
 	//bash-3.2$ cat >> apen >> newap
 	/*
 		cat >> apen 의 내용이 newap로 복사되지않음
@@ -135,6 +135,7 @@ void	redirection(t_info *info, t_parse_node *p)
 		else if (p->lex[i] == HEREDOC)
 		{
 			here_redirection();
+			info->heredoc = 0;
 		}
 		else if (p->lex[i] == OUT_RE)
 		{
@@ -143,14 +144,14 @@ void	redirection(t_info *info, t_parse_node *p)
 		}
 		else if (p->lex[i] == OUT_RE2)
 		{
-			//printf("아웃투\n"); 
+			//printf("아웃투\n");
 			out2_redirection(info, out2);
 			out2++;
 		}
 		i++;
 	}
 	//ft_putendl_fd("in redirection", 2);
-	find_heredoc_p(p);
+	find_heredoc_p(p, info);
 }
 
 // t어쩌구 함수 터미널조작함수 -> ^C안나오게하려고

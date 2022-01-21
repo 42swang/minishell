@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 01:58:36 by swang             #+#    #+#             */
-/*   Updated: 2022/01/19 14:34:06 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/21 15:53:33 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ t_env_node	*make_env_node2(char **tmp)
 	if (new == 0)
 	{
 		ft_putendl_fd("Failed to make env node", 2);
+		back_term();
 		exit(0); // 말록실패
 	}
 	new->env_arr = (char **)ft_calloc(3, sizeof(char *));
@@ -121,6 +122,7 @@ t_env_node	*make_env_node2(char **tmp)
 	if (new->env_arr == 0)
 	{
 		ft_putendl_fd("Failed to make env_arr", 2);
+		back_term();
 		exit(0); // 말록실패
 	}
 	return (new);

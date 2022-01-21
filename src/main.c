@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:48 by swang             #+#    #+#             */
-/*   Updated: 2022/01/20 20:57:58 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/21 15:53:28 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,13 @@ int	main(int argc, char *argv[], char **envp)
 	t_info			info;
 
 	glovar.g_exit_status = 0;
-	tcgetattr(0, &(glovar.old_term));
-	tcgetattr(0, &(glovar.new_term));
-	glovar.new_term.c_lflag &= ECHO;		// 입력 시 터미널에서 보이지 않기
-	glovar.new_term.c_cc[VMIN] = 1;			// 최소 입력 버퍼 크기
-	glovar.new_term.c_cc[VTIME] = 0;		// 버퍼비우는시간
-	tcsetattr(0, TCSANOW, &(glovar.new_term));
+	init_term();
 	sig_init();
 	use_arg(argc, argv);
 	init_info(&info, envp);
 	while(42)
 	{
+		set_term();
 		line = readline("GAEPOSHELL$ ");
 		if (line && *line != '\0')
 			add_history(line);
@@ -62,6 +58,7 @@ int	main(int argc, char *argv[], char **envp)
 			ft_putstr_fd("\x1b[1A", 1);
 			ft_putstr_fd("\033[12C", 1);
 			ft_putendl_fd("exit", 1);
+			back_term();
 			exit(0);
 		}
 		else if (*line == '\0')

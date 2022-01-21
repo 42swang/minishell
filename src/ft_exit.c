@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 20:47:54 by swang             #+#    #+#             */
-/*   Updated: 2022/01/19 16:58:25 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/21 15:53:34 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int ft_exit(t_parse_node *p, t_info *info)
 	if (count == 1)
 	{
 		ft_putendl_fd("exit", 1);
+		back_term();
 		exit(0);
 	}
 	else if (count == 2)
@@ -72,12 +73,14 @@ int ft_exit(t_parse_node *p, t_info *info)
 			//인자가 들어왔는데 문자거나 long long 범위 밖
 			ft_putendl_fd("exit", 1);
 			ft_putendl_fd("exit: numeric argument required", 1);
+			back_term();
 			exit(255);
 		}
 		else
 		{
 			//인자가 숫자
 			ft_putendl_fd("exit", 1);
+			back_term();
 			exit(ret);
 		}
 	}
@@ -90,6 +93,7 @@ int ft_exit(t_parse_node *p, t_info *info)
 			//여러개인데 처음인자가 문자
 			ft_putendl_fd("exit", 1);
 			ft_putendl_fd("exit: numeric argument required", 1);
+			back_term();
 			exit(255);
 		}
 		else

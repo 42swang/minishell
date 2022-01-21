@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 19:03:24 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 08:10:34 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/21 15:53:25 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ t_lex_node	*make_lex_node(int type, char *tok)
 
 	new = (t_lex_node *)ft_calloc(1, sizeof(t_lex_node));
 	if (!new)
+	{
+		back_term();
 		exit(0); //임시로 탈출}
+	}
 	new->type = type;
 	new->value = tok;
 	return (new);
@@ -101,7 +104,7 @@ t_lex_list	*sort_token(t_info *info)
 	t_lex_node	*node;
 	int		i;
 	char	*tok;
-	
+
 	i = 0;
 	list = (t_lex_list *)ft_calloc(1, sizeof(t_lex_list));
 	node = 0;
@@ -121,7 +124,7 @@ t_lex_list	*sort_token(t_info *info)
 t_lex_list *run_lexer(t_info *info)
 {
 	t_lex_list *p;
-	
+
 	p = sort_token(info);
 	return (p);
 }

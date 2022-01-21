@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 15:32:43 by swang             #+#    #+#             */
-/*   Updated: 2022/01/20 20:12:54 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/21 14:02:01 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,15 @@
 typedef struct	s_glovar
 {
 	int	g_exit_status;
-	struct termios	old_term;
-	struct termios	new_term;
+	struct termios	origin_term;
+	struct termios	gaepo_term;
 }	t_glovar;
 
 t_glovar	glovar;
 
 typedef	struct	s_info
 {
+	int						heredoc;
 	int						*real;
 	int						file_idx;
 	int						*file;
@@ -125,6 +126,9 @@ void	free_line(t_info *info, char *line);
 void	init_info(t_info *info, char **envp);
 void	sig_init(void);
 void	use_arg(int ac, char **av);
+void	init_term(void);
+void	set_term(void);
+void	back_term(void);
 
 
 
@@ -196,7 +200,7 @@ void	ft_print_lex_list(t_info *info);
 void handle_signal(int signo);
 void	here_document(t_parse_node *p, int idx);
 void	ft_isheredoc(t_info *info);
-void	find_heredoc_p(t_parse_node *p);
+void	find_heredoc_p(t_parse_node *p, t_info *info);
 int ft_exit(t_parse_node *p, t_info *info);
 int	ft_atoi_for_exit(char *str);
 t_env_node	*make_env_node(char *str);
