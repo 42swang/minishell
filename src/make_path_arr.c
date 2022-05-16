@@ -6,39 +6,36 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 22:08:02 by swang             #+#    #+#             */
-/*   Updated: 2021/12/03 16:43:15 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/24 18:02:41 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char	*get_path_str(char *envp[])
+static char	*get_path_str(t_env_node *ptr)
 {
-	int		i;
 	char	*path_str;
 
-	i = 0;
 	path_str = 0;
-	while (envp[i])
+	while (ptr)
 	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		if (ft_strncmp(ptr->env_arr[0], "PATH", 5) == 0)
 			break ;
-			//환경변수에서 PATH=를 찾았다는 뜻
-		i++;
+		ptr = ptr->next;
 	}
-	if (envp[i] == NULL)
+	if (ptr == NULL)
 		return (NULL);
-	path_str = ft_strdup(envp[i] + 5);
+	path_str = ft_strdup(ptr->env_arr[1]);
 	return (path_str);
 }
 
 static char	**get_path_arr(char	**temp_arr)
 {
-	int	i;
+	int		i;
 	char	*temp_str;
 
 	i = 0;
-	while(temp_arr[i])
+	while (temp_arr[i])
 	{
 		temp_str = ft_strjoin(temp_arr[i], "/");
 		if (temp_str == NULL)
@@ -50,16 +47,17 @@ static char	**get_path_arr(char	**temp_arr)
 	return (temp_arr);
 }
 
-char	**get_path(char	*envp[])
+char	**get_path(t_env_list *list)
 {
 	char	*path_str;
 	char	**temp_path_arr;
 
-	path_str = get_path_str(envp);
+	path_str = get_path_str(list->head);
 	if (path_str == NULL)
 		return (NULL);
 	temp_path_arr = ft_split(path_str, ':');
 	free(path_str);
+	path_str = 0;
 	if (temp_path_arr == NULL)
 		return (NULL);
 	return (get_path_arr(temp_path_arr));

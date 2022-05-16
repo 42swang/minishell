@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 00:59:22 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 19:22:49 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/23 05:53:41 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_sign(char *str, t_info *info)
 	{
 		check_quote_flag(str[i], info);
 		if (!(info->quote & SQ) && str[i] == '$')
-			return (1); //치환해야하는거 하나라도 있음
+			return (1);
 		i++;
 	}
 	return (0);
@@ -43,6 +43,5 @@ char	**run_tokenizer(char *line, t_info *info)
 	ret = trim_quote(convert, info);
 	free_2d(devide);
 	free_2d(convert);
-
 	return (ret);
 }

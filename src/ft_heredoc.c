@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 21:44:24 by swang             #+#    #+#             */
-/*   Updated: 2022/01/17 16:26:58 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/24 17:57:53 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,23 @@
 
 void	find_heredoc_p(t_parse_node *p)
 {
-	int	i;
-	struct stat buf;
+	int			i;
+	struct stat	buf;
 
 	i = 0;
 	while (p->lex[i] && p->lex[i] != HEREDOC)
 		i++;
 	if (p->lex[i] == HEREDOC)
 	{
-		if ((stat("heredoc_tmp_42", &buf)) == 0) //stat함수 실패시 -1반환함
-		{
-			//ft_putendl_fd("in stat", 2);
+		if ((stat("heredoc_tmp_42", &buf)) == 0)
 			unlink("heredoc_tmp_42");
-		}
 	}
 }
 
-
 void	ft_isheredoc(t_info *info)
 {
-	int	i;
-	t_parse_node *p;
+	int				i;
+	t_parse_node	*p;
 
 	p = info->parse_list->head;
 	while (p)
@@ -50,33 +46,6 @@ void	ft_isheredoc(t_info *info)
 	}
 }
 
-/*
-static void	make_cmd_lex(t_parse_node **p)
-{
-	int *tmp;
-	char **temp;
-	int	count;
-	int i;
-
-	count = 0;
-	tmp = (*p)->lex;
-	temp = (*p)->cmd;
-	while ((*p)->lex[count])
-		count++;
-	(*p)->lex = (int *)ft_calloc(count + 2, sizeof(int));
-	(*p)->cmd = (char **)ft_calloc(count + 2, sizeof(char *));
-	i = 0;
-	while (i < count)
-	{
-		(*p)->lex[i] = tmp[i];
-		(*p)->cmd[i] = temp[i];
-		i++;
-	}
-	(*p)->lex[i] = ARG;
-	(*p)->cmd[i] = "heredoc_tmp_42";
-	//printf("here_doc\n");
-}*/
-
 void	here_document(t_parse_node *p, int idx)
 {
 	char	*end;
@@ -84,34 +53,24 @@ void	here_document(t_parse_node *p, int idx)
 	int		i;
 	int		fd;
 
-	//printf("here in\n");
 	fd = open("heredoc_tmp_42", O_RDWR | O_CREAT | O_TRUNC, 00700);
 	i = idx;
-	while (p->lex[i] != HERE_DEL)
+	while (p->lex[i] && p->lex[i] != HERE_DEL)
 		i++;
 	end = p->cmd[i];
-	while(42)
+	while (42)
 	{
 		line = readline("> ");
+		if (line == NULL)
+		{
+			ft_putstr_fd("\x1b[1A", 1);
+			ft_putstr_fd("\033[2C", 1);
+			ft_putstr_fd("", 1);
+			break ;
+		}
 		if (ft_strncmp(end, line, ft_strlen(line) + 1) == 0)
 			break ;
 		ft_putendl_fd(line, fd);
-		//히얼독과 에코가 만나면 빈개행만 출력-> 입력 리다이렉션과 같이 동작하기 때문에 에코에 파일을 인 리다이렉션하면 빈 개행만 출력된다.
-		free(line);
+		ft_free(&line);
 	}
-	/*
-	*****************************************************
-	i = 0;
-	while (p->lex[i] != CMD)
-		i++;
-	if (ft_strncmp(p->cmd[i], "echo", 5) == 0)
-		write(1, "\n", 1);
-	else if (ft_strncmp(p->cmd[i], "cat", 4) == 0)
-		make_cmd_lex(&p);
-	*/
-	//************ "<(in redirection) 작업과 같다(redirection.c)"***********//
-
-
-	//ft_print_str_arr(p->cmd);
-	//ft_print_fd(p->lex);
 }

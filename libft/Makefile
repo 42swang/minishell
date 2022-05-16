@@ -6,7 +6,7 @@
 #    By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/01 15:09:05 by swang             #+#    #+#              #
-#    Updated: 2021/10/05 18:14:12 by swang            ###   ########.fr        #
+#    Updated: 2022/01/23 22:56:40 by swang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRCS = ft_memset.c\
 	ft_strncmp.c\
 	ft_atoi.c\
 	ft_isalpha.c\
+	ft_isspace.c\
 	ft_isdigit.c\
 	ft_isalnum.c\
 	ft_isascii.c\

@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 00:17:29 by swang             #+#    #+#             */
-/*   Updated: 2022/01/14 17:28:14 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/21 20:27:30 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@ t_env_node	*make_env_node(char *str)
 	if (new == 0)
 	{
 		ft_putendl_fd("Failed to make env node", 2);
-		exit(0); // 말록실패
+		back_term();
+		exit(0);
 	}
 	new->env_arr = ft_split(str, '=');
 	if (new->env_arr == 0)
 	{
 		ft_putendl_fd("Failed to make env_arr", 2);
-		exit(0); // 말록실패
+		back_term();
+		exit(0);
 	}
 	return (new);
 }
@@ -49,9 +51,9 @@ static void	add_env_node(t_env_list **list, t_env_node **node)
 
 t_env_list	*make_env_list(char **envp)
 {
-	t_env_list *list;
-	t_env_node *node;
-	int	i;
+	t_env_list	*list;
+	t_env_node	*node;
+	int			i;
 
 	i = 0;
 	list = (t_env_list *)ft_calloc(1, sizeof(t_env_list));

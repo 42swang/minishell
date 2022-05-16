@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 19:53:19 by swang             #+#    #+#             */
-/*   Updated: 2021/12/04 19:45:12 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/21 17:52:15 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	find_start_end(char *line, int *start, int *end)
 				idx++;
 		}
 		*end = idx;
-		break;
+		break ;
 	}
 }
 

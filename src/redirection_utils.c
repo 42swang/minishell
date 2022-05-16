@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/24 17:06:21 by swang             #+#    #+#             */
-/*   Updated: 2022/01/24 17:58:02 by swang            ###   ########.fr       */
+/*   Created: 2021/12/09 15:09:47 by swang             #+#    #+#             */
+/*   Updated: 2022/01/23 04:06:18 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	ft_pwd(t_parse_node *p, t_info *info)
+void	in_redirection(t_info *info, int idx)
 {
-	char	*buf;
+	dup2(info->file[idx], 0);
+	close(info->file[idx]);
+}
 
-	(void)p;
-	(void)info;
-	buf = getcwd(NULL, 0);
-	if (!buf)
-		return (-1);
-	else
-		printf("%s\n", buf);
-	free(buf);
-	buf = 0;
-	return (0);
+void	here_redirection(void)
+{
+	int	fd;
+
+	fd = open("heredoc_tmp_42", O_RDONLY);
+	dup2(fd, 0);
+	close(fd);
+}
+
+void	out_redirection(t_info *info, int idx)
+{
+	dup2(info->file[idx], 1);
+	close(info->file[idx]);
+}
+
+void	out2_redirection(t_info *info, int idx)
+{
+	dup2(info->file[idx], 1);
+	close(info->file[idx]);
 }

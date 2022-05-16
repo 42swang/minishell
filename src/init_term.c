@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   init_term.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/24 17:06:21 by swang             #+#    #+#             */
-/*   Updated: 2022/01/24 17:58:02 by swang            ###   ########.fr       */
+/*   Created: 2022/01/21 16:35:55 by swang             #+#    #+#             */
+/*   Updated: 2022/01/24 14:43:14 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	ft_pwd(t_parse_node *p, t_info *info)
+void	init_term(void)
 {
-	char	*buf;
+	tcgetattr(0, &(g_glovar.origin_term));
+	tcgetattr(0, &(g_glovar.gaepo_term));
+}
 
-	(void)p;
-	(void)info;
-	buf = getcwd(NULL, 0);
-	if (!buf)
-		return (-1);
-	else
-		printf("%s\n", buf);
-	free(buf);
-	buf = 0;
-	return (0);
+void	set_term(void)
+{
+	g_glovar.gaepo_term.c_lflag &= ECHO;
+	g_glovar.gaepo_term.c_cc[VMIN] = 1;
+	g_glovar.gaepo_term.c_cc[VTIME] = 0;
+	tcsetattr(0, TCSANOW, &(g_glovar.gaepo_term));
+}
+
+void	back_term(void)
+{
+	tcsetattr(0, TCSANOW, &(g_glovar.origin_term));
 }

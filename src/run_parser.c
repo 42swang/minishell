@@ -6,7 +6,7 @@
 /*   By: swang <swang@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 15:44:02 by swang             #+#    #+#             */
-/*   Updated: 2021/12/24 19:23:32 by swang            ###   ########.fr       */
+/*   Updated: 2022/01/21 20:26:17 by swang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ void	add_parse_node(t_parse_list **list, t_parse_node **node)
 		(*list)->tail->next = *node;
 		(*node)->prev = (*list)->tail;
 		(*list)->tail = *node;
-	}	
+	}
 }
 
 t_parse_node	*make_parse_node(t_info *info, int *count, int *node_i)
 {
-	t_parse_node *new;
-	int idx;
-	
+	t_parse_node	*new;
+	int				idx;
+
 	idx = 0;
 	new = (t_parse_node *)ft_calloc(1, sizeof(t_parse_node));
 	new->index = *node_i;
@@ -44,10 +44,8 @@ t_parse_node	*make_parse_node(t_info *info, int *count, int *node_i)
 		new->lex[idx] = info->lex_list->curr->type;
 		idx++;
 		info->lex_list->curr = info->lex_list->curr->next;
-		//첫 진입시 curr은 머리, 머리부터 count개수만큼 만든다.
-		//재진입시 curr은 이전 파이프의 다음노드부터 count개수만큼 (파이프와 파이프 사이를 만드는 중)
 	}
-	*count = 0; //개수 초기화
+	*count = 0;
 	(*node_i)++;
 	return (new);
 }
@@ -55,19 +53,19 @@ t_parse_node	*make_parse_node(t_info *info, int *count, int *node_i)
 void	make_parse_list(t_info *info, t_parse_list **list)
 {
 	t_parse_node	*node;
-	t_lex_node *p;
-	int	count;
-	int	node_i;
+	t_lex_node		*p;
+	int				count;
+	int				node_i;
 
 	count = 0;
 	node_i = 0;
 	p = info->lex_list->head;
 	info->lex_list->curr = info->lex_list->head;
-	while (p) //머리부터 탐색
+	while (p)
 	{
 		if (p->type == PIPE)
 		{
-			node = make_parse_node(info, &count, &node_i); // 파이프 전까지의 데이터를 담아서
+			node = make_parse_node(info, &count, &node_i);
 			info->lex_list->curr = p->next;
 			add_parse_node(list, &node);
 		}
